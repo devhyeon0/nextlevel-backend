@@ -1,11 +1,14 @@
 package com.nextlevel.user.service;
 
 import com.nextlevel.user.dto.UserRequestDto;
+import com.nextlevel.user.dto.UserResponseDto;
+import com.nextlevel.user.entity.User;
 import com.nextlevel.user.mapper.UserMapper;
 import com.nextlevel.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -17,5 +20,25 @@ public class UserService {
 
     public void createUser(UserRequestDto userRequestDto) {
         userRepository.save(mapper.userRequestDtoToUser(userRequestDto));
+    }
+
+    public UserResponseDto updateUser(Long userId, UserRequestDto userRequestDto) {
+        User user = findUser(userId);
+        user.update(userRequestDto);
+
+        return mapper.userToUserResponseDto(user);
+    }
+
+    @Transactional(readOnly = true)
+    public User findUser(Long userId) {
+        Optional<User> findUser = userRepository.findById(userId);
+
+        return findUser.orElseThrow(() -> new IllegalArgumentException("계정이 존재하지 않습니다."));
+    }
+
+    private User verifyExistsByEmail(String email) {
+        Optional<User> findUser = userRepository.findByEmail(email);
+
+        return findUser.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
     }
 }

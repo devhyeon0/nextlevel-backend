@@ -1,17 +1,19 @@
 package com.nextlevel.user.entity;
 
 import com.nextlevel.common.audit.BaseTimeEntity;
+import com.nextlevel.user.dto.UserRequestDto;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.Optional;
 
 import static jakarta.persistence.EnumType.*;
 
 @Getter
 @Entity
 @Table(name = "users")
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseTimeEntity {
 
@@ -38,12 +40,9 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private UserStatus status;
 
-    @Builder
-    public User(String email, String nickname, LoginProvider provider, UserRole userRole, UserStatus status) {
-        this.email = email;
-        this.nickname = nickname;
-        this.provider = provider;
-        this.userRole = userRole;
-        this.status = status;
+    public void update(UserRequestDto userDto) {
+        Optional.ofNullable(userDto.getNickname()).ifPresent(value -> this.nickname = value);
+        Optional.ofNullable(userDto.getUserRole()).ifPresent(value -> this.userRole = value);
+        Optional.ofNullable(userDto.getStatus()).ifPresent(value -> this.status = value);
     }
 }
