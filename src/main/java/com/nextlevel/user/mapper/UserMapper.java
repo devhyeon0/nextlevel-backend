@@ -14,5 +14,6 @@ public interface UserMapper {
     @Mapping(source = "id", target = "userId")
     UserResponseDto userToUserResponseDto(User user);
 
+    @Mapping(source = "userId", target = "id")
     User userResponseDtoToUser(UserResponseDto userResponseDto);
 }
