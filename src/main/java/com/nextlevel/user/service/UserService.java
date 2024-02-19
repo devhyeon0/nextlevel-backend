@@ -37,6 +37,10 @@ public class UserService {
         return mapper.userToUserResponseDto(findUser);
     }
 
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
+    }
+
     private User verifyExistsByEmail(String email) {
         Optional<User> findUser = userRepository.findByEmail(email);
 
