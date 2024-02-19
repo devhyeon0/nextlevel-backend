@@ -23,17 +23,18 @@ public class UserService {
     }
 
     public UserResponseDto updateUser(Long userId, UserRequestDto userRequestDto) {
-        User user = findUser(userId);
+        User user = mapper.userResponseDtoToUser(findUser(userId));
         user.update(userRequestDto);
 
         return mapper.userToUserResponseDto(user);
     }
 
     @Transactional(readOnly = true)
-    public User findUser(Long userId) {
-        Optional<User> findUser = userRepository.findById(userId);
+    public UserResponseDto findUser(Long userId) {
+        User findUser = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("계정이 존재하지 않습니다."));
 
-        return findUser.orElseThrow(() -> new IllegalArgumentException("계정이 존재하지 않습니다."));
+        return mapper.userToUserResponseDto(findUser);
     }
 
     private User verifyExistsByEmail(String email) {

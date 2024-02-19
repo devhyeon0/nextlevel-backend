@@ -31,4 +31,11 @@ public class UserController {
 
         return ResponseEntity.ok(userResponseDto);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDto> getUser(@PathVariable("id") Long userId) {
+        UserResponseDto userResponseDto = userService.findUser(userId);
+
+        return ResponseEntity.ok(userResponseDto);
+    }
 }
