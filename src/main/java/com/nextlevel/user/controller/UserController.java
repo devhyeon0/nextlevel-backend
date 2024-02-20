@@ -3,6 +3,7 @@ package com.nextlevel.user.controller;
 import com.nextlevel.user.dto.UserRequestDto;
 import com.nextlevel.user.dto.UserResponseDto;
 import com.nextlevel.user.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<Objects> postUser(@RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<Objects> postUser(@Valid @RequestBody UserRequestDto userRequestDto) {
         userService.createUser(userRequestDto);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -26,7 +27,7 @@ public class UserController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<UserResponseDto> patchUser(@PathVariable("id") Long userId,
-                                                     @RequestBody UserRequestDto userRequestDto) {
+                                                     @Valid @RequestBody UserRequestDto userRequestDto) {
         UserResponseDto userResponseDto = userService.updateUser(userId, userRequestDto);
 
         return ResponseEntity.ok(userResponseDto);
