@@ -44,4 +44,8 @@ public class PostService {
 
         return mapper.postsToPostResponseDtos(posts);
     }
+
+    public void deletePost(Long postId) {
+        postRepository.deleteById(postId);
+    }
 }
