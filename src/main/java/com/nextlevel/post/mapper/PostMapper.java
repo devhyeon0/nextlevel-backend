@@ -6,6 +6,8 @@ import com.nextlevel.post.entity.Post;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface PostMapper {
 
@@ -16,4 +18,6 @@ public interface PostMapper {
 
     @Mapping(source = "postId", target = "id")
     Post postResponseDtoToPost(PostResponseDto postResponseDto);
+
+    List<PostResponseDto> postsToPostResponseDtos(List<Post> posts);
 }

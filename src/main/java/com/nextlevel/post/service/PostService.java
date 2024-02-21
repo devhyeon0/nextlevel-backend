@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -34,5 +36,12 @@ public class PostService {
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
 
         return mapper.postToPostResponseDto(findPost);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostResponseDto> findPosts() {
+        List<Post> posts = postRepository.findAll();
+
+        return mapper.postsToPostResponseDtos(posts);
     }
 }
