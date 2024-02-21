@@ -1,15 +1,13 @@
 package com.nextlevel.post.controller;
 
 import com.nextlevel.post.dto.PostRequestDto;
+import com.nextlevel.post.dto.PostResponseDto;
 import com.nextlevel.post.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
@@ -25,5 +23,13 @@ public class PostController {
         postService.createPost(postRequestDto);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<PostResponseDto> patchPost(@PathVariable("id") Long postId,
+                                                     @Valid @RequestBody PostRequestDto postRequestDto) {
+        PostResponseDto postResponseDto = postService.updatePost(postId, postRequestDto);
+
+        return ResponseEntity.ok(postResponseDto);
     }
 }

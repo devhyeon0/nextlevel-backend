@@ -1,6 +1,7 @@
 package com.nextlevel.post.service;
 
 import com.nextlevel.post.dto.PostRequestDto;
+import com.nextlevel.post.dto.PostResponseDto;
 import com.nextlevel.post.entity.Post;
 import com.nextlevel.post.mapper.PostMapper;
 import com.nextlevel.post.repository.PostRepository;
@@ -18,5 +19,20 @@ public class PostService {
 
     public void createPost(PostRequestDto postRequestDto) {
         postRepository.save(mapper.postRequestDtoToPost(postRequestDto));
+    }
+
+    public PostResponseDto updatePost(Long postId, PostRequestDto postRequestDto) {
+        Post post = mapper.postResponseDtoToPost(findPost(postId));
+        post.update(postRequestDto);
+
+        return mapper.postToPostResponseDto(post);
+    }
+
+    @Transactional(readOnly = true)
+    public PostResponseDto findPost(Long postId) {
+        Post findPost = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+
+        return mapper.postToPostResponseDto(findPost);
     }
 }

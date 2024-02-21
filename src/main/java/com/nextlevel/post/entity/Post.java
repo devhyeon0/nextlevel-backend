@@ -1,8 +1,11 @@
 package com.nextlevel.post.entity;
 
 import com.nextlevel.common.audit.BaseEntity;
+import com.nextlevel.post.dto.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Optional;
 
 import static jakarta.persistence.EnumType.*;
 
@@ -36,4 +39,12 @@ public class Post extends BaseEntity {
 
     @Column(nullable = false)
     private Integer createIp;
+
+    public void update(PostRequestDto postDto) {
+        Optional.ofNullable(postDto.getTitle()).ifPresent(value -> this.title = value);
+        Optional.ofNullable(postDto.getContent()).ifPresent(value -> this.content = value);
+        Optional.ofNullable(postDto.getViews()).ifPresent(value -> this.views = value);
+        Optional.ofNullable(postDto.getStatus()).ifPresent(value -> this.status = value);
+        Optional.ofNullable(postDto.getNotify()).ifPresent(value -> this.notify = value);
+    }
 }
