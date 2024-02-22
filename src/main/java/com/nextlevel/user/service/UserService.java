@@ -23,7 +23,8 @@ public class UserService {
     }
 
     public UserResponseDto updateUser(Long userId, UserRequestDto userRequestDto) {
-        User user = mapper.userResponseDtoToUser(findUser(userId));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("계정이 존재하지 않습니다."));
         user.update(userRequestDto);
 
         return mapper.userToUserResponseDto(user);

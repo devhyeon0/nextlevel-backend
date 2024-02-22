@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -24,7 +25,8 @@ public class PostService {
     }
 
     public PostResponseDto updatePost(Long postId, PostRequestDto postRequestDto) {
-        Post post = mapper.postResponseDtoToPost(findPost(postId));
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
         post.update(postRequestDto);
 
         return mapper.postToPostResponseDto(post);
