@@ -45,4 +45,8 @@ public class CommentService {
 
         return mapper.commentsToCommentResponseDtos(comments);
     }
+
+    public void deleteComment(Long commentId) {
+        commentRepository.deleteById(commentId);
+    }
 }
