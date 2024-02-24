@@ -1,15 +1,13 @@
 package com.nextlevel.post.controller;
 
 import com.nextlevel.post.dto.CommentRequestDto;
+import com.nextlevel.post.dto.CommentResponseDto;
 import com.nextlevel.post.service.CommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
@@ -25,5 +23,13 @@ public class CommentController {
         commentService.createComment(commentRequestDto);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<CommentResponseDto> patchComment(@PathVariable("id") Long commentId,
+                                                           @RequestBody CommentRequestDto commentRequestDto) {
+        CommentResponseDto commentResponseDto = commentService.updateComment(commentId, commentRequestDto);
+
+        return ResponseEntity.ok(commentResponseDto);
     }
 }

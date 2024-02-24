@@ -1,8 +1,11 @@
 package com.nextlevel.post.entity;
 
 import com.nextlevel.common.audit.BaseEntity;
+import com.nextlevel.post.dto.CommentRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Optional;
 
 @Getter
 @Entity
@@ -22,4 +25,9 @@ public class Comment extends BaseEntity {
 
     @Column(nullable = false)
     private Integer reportCount;
+
+    public void update(CommentRequestDto commentDto) {
+        Optional.ofNullable(commentDto.getContent()).ifPresent(value -> this.content = value);
+        Optional.ofNullable(commentDto.getReportCount()).ifPresent(value -> this.reportCount = value);
+    }
 }
