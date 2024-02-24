@@ -13,6 +13,6 @@ public class PostResponseDto {
      private String content;
      private Long views;
      private PostStatus status;
-     private Integer notify;
+     private Integer reportCount;
      private Integer createIp;
 }

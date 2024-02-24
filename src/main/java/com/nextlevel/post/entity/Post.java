@@ -35,7 +35,7 @@ public class Post extends BaseEntity {
     private PostStatus status;
 
     @Column(nullable = false)
-    private Integer notify;
+    private Integer reportCount;
 
     @Column(nullable = false)
     private Integer createIp;
@@ -45,6 +45,6 @@ public class Post extends BaseEntity {
         Optional.ofNullable(postDto.getContent()).ifPresent(value -> this.content = value);
         Optional.ofNullable(postDto.getViews()).ifPresent(value -> this.views = value);
         Optional.ofNullable(postDto.getStatus()).ifPresent(value -> this.status = value);
-        Optional.ofNullable(postDto.getNotify()).ifPresent(value -> this.notify = value);
+        Optional.ofNullable(postDto.getReportCount()).ifPresent(value -> this.reportCount = value);
     }
 }
