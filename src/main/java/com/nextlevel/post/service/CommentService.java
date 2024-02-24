@@ -39,6 +39,7 @@ public class CommentService {
         return mapper.commentToCommentResponseDto(comment);
     }
 
+    @Transactional(readOnly = true)
     public List<CommentResponseDto> getComments() {
         List<Comment> comments = commentRepository.findAll();
 
