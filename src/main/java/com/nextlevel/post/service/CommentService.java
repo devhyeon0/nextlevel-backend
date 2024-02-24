@@ -28,4 +28,12 @@ public class CommentService {
 
         return mapper.commentToCommentResponseDto(comment);
     }
+
+    @Transactional(readOnly = true)
+    public CommentResponseDto getComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
+
+        return mapper.commentToCommentResponseDto(comment);
+    }
 }
