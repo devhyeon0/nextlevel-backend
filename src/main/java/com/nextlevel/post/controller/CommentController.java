@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -38,5 +39,12 @@ public class CommentController {
         CommentResponseDto commentResponseDto = commentService.getComment(commentId);
 
         return ResponseEntity.ok(commentResponseDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CommentResponseDto>> getComments() {
+        List<CommentResponseDto> commentResponseDtos = commentService.getComments();
+
+        return ResponseEntity.ok(commentResponseDtos);
     }
 }

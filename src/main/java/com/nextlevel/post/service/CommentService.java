@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -35,5 +37,11 @@ public class CommentService {
                 .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
 
         return mapper.commentToCommentResponseDto(comment);
+    }
+
+    public List<CommentResponseDto> getComments() {
+        List<Comment> comments = commentRepository.findAll();
+
+        return mapper.commentsToCommentResponseDtos(comments);
     }
 }

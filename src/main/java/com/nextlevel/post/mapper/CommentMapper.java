@@ -6,6 +6,8 @@ import com.nextlevel.post.entity.Comment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
 
@@ -13,4 +15,6 @@ public interface CommentMapper {
 
     @Mapping(source = "id", target = "commentId")
     CommentResponseDto commentToCommentResponseDto(Comment comment);
+
+    List<CommentResponseDto> commentsToCommentResponseDtos(List<Comment> comments);
 }
