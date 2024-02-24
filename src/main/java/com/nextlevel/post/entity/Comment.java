@@ -19,4 +19,7 @@ public class Comment extends BaseEntity {
 
     @Column(nullable = false)
     private String content;
+
+    @Column(nullable = false)
+    private Integer reportCount;
 }
