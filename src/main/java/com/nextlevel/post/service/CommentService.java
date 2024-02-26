@@ -1,7 +1,7 @@
 package com.nextlevel.post.service;
 
-import com.nextlevel.post.dto.CommentRequestDto;
-import com.nextlevel.post.dto.CommentResponseDto;
+import com.nextlevel.post.dto.request.CommentRequestDto;
+import com.nextlevel.post.dto.response.CommentResponseDto;
 import com.nextlevel.post.entity.Comment;
 import com.nextlevel.post.mapper.CommentMapper;
 import com.nextlevel.post.repository.CommentRepository;

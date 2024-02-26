@@ -1,7 +1,7 @@
 package com.nextlevel.post.entity;
 
 import com.nextlevel.common.audit.BaseTimeEntity;
-import com.nextlevel.post.dto.CategoryRequestDto;
+import com.nextlevel.post.dto.request.CategoryRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 

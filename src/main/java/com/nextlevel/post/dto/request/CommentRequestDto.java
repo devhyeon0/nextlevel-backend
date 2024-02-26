@@ -1,4 +1,4 @@
-package com.nextlevel.post.dto;
+package com.nextlevel.post.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;

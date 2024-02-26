@@ -1,7 +1,7 @@
 package com.nextlevel.post.mapper;
 
-import com.nextlevel.post.dto.CategoryRequestDto;
-import com.nextlevel.post.dto.CategoryResponseDto;
+import com.nextlevel.post.dto.request.CategoryRequestDto;
+import com.nextlevel.post.dto.response.CategoryResponseDto;
 import com.nextlevel.post.entity.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

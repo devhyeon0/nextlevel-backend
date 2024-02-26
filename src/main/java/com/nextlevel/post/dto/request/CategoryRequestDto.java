@@ -1,13 +1,12 @@
-package com.nextlevel.post.dto;
+package com.nextlevel.post.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class CategoryResponseDto {
+public class CategoryRequestDto {
 
-    private Long categoryId;
     private String name;
     private boolean enabled;
 }

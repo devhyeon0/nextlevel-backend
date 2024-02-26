@@ -1,4 +1,4 @@
-package com.nextlevel.post.dto;
+package com.nextlevel.post.dto.request;
 
 import com.nextlevel.post.entity.PostStatus;
 import jakarta.validation.constraints.NotBlank;

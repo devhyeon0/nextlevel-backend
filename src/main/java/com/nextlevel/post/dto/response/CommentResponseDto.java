@@ -1,4 +1,4 @@
-package com.nextlevel.post.dto;
+package com.nextlevel.post.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
