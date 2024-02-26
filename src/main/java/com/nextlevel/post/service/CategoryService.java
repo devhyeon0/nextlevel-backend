@@ -29,4 +29,11 @@ public class CategoryService {
 
         return mapper.categoryToCategoryResponseDto(category);
     }
+
+    public CategoryResponseDto getCategory(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new IllegalArgumentException("카테고리가 존재하지 않습니다."));
+
+        return mapper.categoryToCategoryResponseDto(category);
+    }
 }
