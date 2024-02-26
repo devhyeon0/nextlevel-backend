@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -35,5 +37,11 @@ public class CategoryService {
                 .orElseThrow(() -> new IllegalArgumentException("카테고리가 존재하지 않습니다."));
 
         return mapper.categoryToCategoryResponseDto(category);
+    }
+
+    public List<CategoryResponseDto> getCategories() {
+        List<Category> categories = categoryRepository.findAll();
+
+        return mapper.categoriesToCategoryResponseDtos(categories);
     }
 }

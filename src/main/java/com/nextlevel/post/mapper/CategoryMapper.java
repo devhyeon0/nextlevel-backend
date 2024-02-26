@@ -6,6 +6,8 @@ import com.nextlevel.post.entity.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
 
@@ -13,4 +15,6 @@ public interface CategoryMapper {
 
     @Mapping(source = "id", target = "categoryId")
     CategoryResponseDto categoryToCategoryResponseDto(Category category);
+
+    List<CategoryResponseDto> categoriesToCategoryResponseDtos(List<Category> categories);
 }
