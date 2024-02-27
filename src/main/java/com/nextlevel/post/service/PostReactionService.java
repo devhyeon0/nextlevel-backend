@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -34,5 +36,11 @@ public class PostReactionService {
                 .orElseThrow(() -> new IllegalArgumentException("확인된 반응이 없습니다."));
 
         return mapper.postReactionToPostReactionResponseDto(findPostReaction);
+    }
+
+    public List<PostReactionResponseDto> findAllPostReaction() {
+        List<PostReaction> allPostReaction = postReactionRepository.findAll();
+
+        return mapper.allPostReactionToPostReactionResponseDtos(allPostReaction);
     }
 }

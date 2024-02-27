@@ -6,6 +6,8 @@ import com.nextlevel.post.entity.PostReaction;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface PostReactionMapper {
 
@@ -13,4 +15,6 @@ public interface PostReactionMapper {
 
     @Mapping(source = "id", target = "post_reaction_id")
     PostReactionResponseDto postReactionToPostReactionResponseDto(PostReaction findPostReaction);
+
+    List<PostReactionResponseDto> allPostReactionToPostReactionResponseDtos(List<PostReaction> allPostReaction);
 }

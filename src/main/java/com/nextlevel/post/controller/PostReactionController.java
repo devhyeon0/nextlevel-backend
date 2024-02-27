@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -38,5 +39,12 @@ public class PostReactionController {
         PostReactionResponseDto postReactionResponseDto = postReactionService.findPostReaction(postReactionId);
 
         return ResponseEntity.ok(postReactionResponseDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PostReactionResponseDto>> getAllReaction() {
+        List<PostReactionResponseDto> postReactionResponseDtos = postReactionService.findAllPostReaction();
+
+        return ResponseEntity.ok(postReactionResponseDtos);
     }
 }
