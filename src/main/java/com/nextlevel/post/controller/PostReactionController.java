@@ -32,4 +32,11 @@ public class PostReactionController {
 
         return ResponseEntity.ok(postReactionResponseDto);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PostReactionResponseDto> getReaction(@PathVariable("id") Long postReactionId) {
+        PostReactionResponseDto postReactionResponseDto = postReactionService.findPostReaction(postReactionId);
+
+        return ResponseEntity.ok(postReactionResponseDto);
+    }
 }

@@ -27,4 +27,12 @@ public class PostReactionService {
 
         return mapper.postReactionToPostReactionResponseDto(findPostReaction);
     }
+
+    @Transactional(readOnly = true)
+    public PostReactionResponseDto findPostReaction(Long postReactionId) {
+        PostReaction findPostReaction = postReactionRepository.findById(postReactionId)
+                .orElseThrow(() -> new IllegalArgumentException("확인된 반응이 없습니다."));
+
+        return mapper.postReactionToPostReactionResponseDto(findPostReaction);
+    }
 }
