@@ -38,6 +38,7 @@ public class PostReactionService {
         return mapper.postReactionToPostReactionResponseDto(findPostReaction);
     }
 
+    @Transactional(readOnly = true)
     public List<PostReactionResponseDto> findAllPostReaction() {
         List<PostReaction> allPostReaction = postReactionRepository.findAll();
 

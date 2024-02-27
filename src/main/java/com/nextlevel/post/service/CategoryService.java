@@ -32,6 +32,7 @@ public class CategoryService {
         return mapper.categoryToCategoryResponseDto(category);
     }
 
+    @Transactional(readOnly = true)
     public CategoryResponseDto getCategory(Long categoryId) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new IllegalArgumentException("카테고리가 존재하지 않습니다."));
@@ -39,6 +40,7 @@ public class CategoryService {
         return mapper.categoryToCategoryResponseDto(category);
     }
 
+    @Transactional(readOnly = true)
     public List<CategoryResponseDto> getCategories() {
         List<Category> categories = categoryRepository.findAll();
 
