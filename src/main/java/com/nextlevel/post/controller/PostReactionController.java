@@ -47,4 +47,11 @@ public class PostReactionController {
 
         return ResponseEntity.ok(postReactionResponseDtos);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Objects> deleteReaction(@PathVariable("id") Long postReactionId) {
+        postReactionService.deleteReaction(postReactionId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

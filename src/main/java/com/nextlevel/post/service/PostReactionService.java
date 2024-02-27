@@ -43,4 +43,8 @@ public class PostReactionService {
 
         return mapper.allPostReactionToPostReactionResponseDtos(allPostReaction);
     }
+
+    public void deleteReaction(Long postReactionId) {
+        postReactionRepository.deleteById(postReactionId);
+    }
 }
