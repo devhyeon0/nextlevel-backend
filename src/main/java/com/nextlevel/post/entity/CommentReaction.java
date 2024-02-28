@@ -1,5 +1,6 @@
 package com.nextlevel.post.entity;
 
+import com.nextlevel.common.audit.BaseTimeEntity;
 import com.nextlevel.post.dto.request.CommentReactionRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +13,7 @@ import java.util.Optional;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CommentReaction {
+public class CommentReaction extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
