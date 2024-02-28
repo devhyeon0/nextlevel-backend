@@ -1,4 +1,4 @@
-package com.nextlevel.post.dto;
+package com.nextlevel.post.dto.request;
 
 import com.nextlevel.post.entity.ReactionType;
 import lombok.Builder;
@@ -6,8 +6,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class PostReactionResponseDto {
+public class PostReactionRequestDto {
 
-    private Long id;
     private ReactionType reactionType;
 }

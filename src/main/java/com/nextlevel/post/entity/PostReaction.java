@@ -1,8 +1,11 @@
 package com.nextlevel.post.entity;
 
 import com.nextlevel.common.audit.BaseTimeEntity;
+import com.nextlevel.post.dto.request.PostReactionRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Optional;
 
 @Getter
 @Entity
@@ -18,4 +21,8 @@ public class PostReaction extends BaseTimeEntity {
     private Long id;
 
     private ReactionType reactionType;
+
+    public void update(PostReactionRequestDto postReactionRequestDto) {
+        Optional.ofNullable(postReactionRequestDto.getReactionType()).ifPresent(value -> this.reactionType = value);
+    }
 }

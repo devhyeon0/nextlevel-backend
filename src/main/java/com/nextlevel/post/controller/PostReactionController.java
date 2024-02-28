@@ -1,7 +1,7 @@
 package com.nextlevel.post.controller;
 
-import com.nextlevel.post.dto.PostReactionRequestDto;
-import com.nextlevel.post.dto.PostReactionResponseDto;
+import com.nextlevel.post.dto.request.PostReactionRequestDto;
+import com.nextlevel.post.dto.response.PostReactionResponseDto;
 import com.nextlevel.post.service.PostReactionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

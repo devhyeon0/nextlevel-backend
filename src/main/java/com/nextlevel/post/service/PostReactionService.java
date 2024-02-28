@@ -1,7 +1,7 @@
 package com.nextlevel.post.service;
 
-import com.nextlevel.post.dto.PostReactionRequestDto;
-import com.nextlevel.post.dto.PostReactionResponseDto;
+import com.nextlevel.post.dto.request.PostReactionRequestDto;
+import com.nextlevel.post.dto.response.PostReactionResponseDto;
 import com.nextlevel.post.entity.PostReaction;
 import com.nextlevel.post.mapper.PostReactionMapper;
 import com.nextlevel.post.repository.PostReactionRepository;
@@ -26,6 +26,8 @@ public class PostReactionService {
     public PostReactionResponseDto updateReaction(Long postReactionId, PostReactionRequestDto postReactionRequestDto) {
         PostReaction findPostReaction = postReactionRepository.findById(postReactionId)
                 .orElseThrow(() -> new IllegalArgumentException("확인된 반응이 없습니다."));
+
+        findPostReaction.update(postReactionRequestDto);
 
         return mapper.postReactionToPostReactionResponseDto(findPostReaction);
     }
