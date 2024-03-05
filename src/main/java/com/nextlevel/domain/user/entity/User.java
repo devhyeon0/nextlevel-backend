@@ -25,6 +25,9 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false, length = 30)
+    private String password;
+
     @Column(nullable = false, unique = true, length = 20)
     private String nickname;
 
@@ -42,6 +45,7 @@ public class User extends BaseTimeEntity {
 
     public void update(UserRequestDto userDto) {
         Optional.ofNullable(userDto.getNickname()).ifPresent(value -> this.nickname = value);
+        Optional.ofNullable(userDto.getPassword()).ifPresent(value -> this.password = value);
         Optional.ofNullable(userDto.getUserRole()).ifPresent(value -> this.userRole = value);
         Optional.ofNullable(userDto.getStatus()).ifPresent(value -> this.status = value);
     }
