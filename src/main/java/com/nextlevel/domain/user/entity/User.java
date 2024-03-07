@@ -1,6 +1,6 @@
 package com.nextlevel.domain.user.entity;
 
-import com.nextlevel.global.common.audit.BaseTimeEntity;
+import com.nextlevel.global.audit.BaseTimeEntity;
 import com.nextlevel.domain.user.dto.UserRequestDto;
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,4 +1,4 @@
-package com.nextlevel.global.common.audit;
+package com.nextlevel.global.audit;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
