@@ -8,6 +8,6 @@ import lombok.Getter;
 @Builder
 public class PostReactionResponseDto {
 
-    private Long id;
+    private Long postReactionId;
     private ReactionType reactionType;
 }
