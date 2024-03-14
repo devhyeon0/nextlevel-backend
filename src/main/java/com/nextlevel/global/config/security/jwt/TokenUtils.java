@@ -1,6 +1,7 @@
-package com.nextlevel.config.security.jwt;
+package com.nextlevel.global.config.security.jwt;
 
-import com.nextlevel.user.dto.UserResponseDto;
+import com.nextlevel.domain.user.dto.UserLoginDto;
+import com.nextlevel.domain.user.dto.UserResponseDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -19,18 +20,19 @@ import java.util.Map;
 public class TokenUtils {
 
 //    @Value("${jwt.secretKey}")
+    //TODO: 임시 JWT Secret Key, 수정 필요
     private static final String jwtSecretKey = "dGhpc0lzU2VjcmV0S2V5SldUU2VjcmV0U2VjcmV0TmV4dExldmVsSnd0U2VjcmV0S2V5MjAyNDAzMTBXcml0ZQo=";
     private static final Key key = Keys.hmacShaKeyFor(jwtSecretKey.getBytes(StandardCharsets.UTF_8));
     private static final String JWT_TYPE = "JWT";
     private static final String ALGORITHM = "HS256";
-    private static final String LOGIN_ID = "loginId";
+    private static final String EMAIL = "email";
     private static final String USERNAME = "username";
 
-    public static String generateJwtToken(UserResponseDto userDto) {
+    public static String generateJwtToken(UserLoginDto userDto) {
         JwtBuilder builder = Jwts.builder()
                 .setHeader(createHeader())
                 .setClaims(createClaims(userDto))
-                .setSubject(String.valueOf(userDto.getEmail()))
+                .setSubject(String.valueOf(userDto.email()))
                 .setIssuer("profile")
                 .signWith(key, SignatureAlgorithm.HS256)
                 .setExpiration(createExpireDate());
@@ -43,7 +45,7 @@ public class TokenUtils {
             Claims claims = getClaimsFromToken(token);
 
             log.info("expireTime: {}", claims.getExpiration());
-            log.info("loginId: {}", claims.get(LOGIN_ID));
+            log.info("email: {}", claims.get(EMAIL));
             log.info("username: {}", claims.get(USERNAME));
 
             return true;
@@ -74,14 +76,14 @@ public class TokenUtils {
         return header;
     }
 
-    private static Map<String, Object> createClaims(UserResponseDto userDto) {
+    private static Map<String, Object> createClaims(UserLoginDto userDto) {
         Map<String, Object> claims = new HashMap<>();
 
-        log.info("loginId: {}", userDto.getEmail());
-        log.info("username: {}", userDto.getNickname());
+        log.info("email: {}", userDto.email());
+        log.info("username: {}", userDto.nickname());
 
-        claims.put(LOGIN_ID, userDto.getEmail());
-        claims.put(USERNAME, userDto.getNickname());
+        claims.put(EMAIL, userDto.email());
+        claims.put(USERNAME, userDto.nickname());
         return claims;
     }
 
@@ -92,6 +94,6 @@ public class TokenUtils {
 
     public static String getUserIdFromToken(String token) {
         Claims claims = getClaimsFromToken(token);
-        return claims.get(LOGIN_ID).toString();
+        return claims.get(EMAIL).toString();
     }
 }
