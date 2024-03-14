@@ -5,6 +5,8 @@ import com.nextlevel.domain.post.entity.Post;
 import com.nextlevel.domain.post.mapper.PostMapper;
 import com.nextlevel.domain.post.repository.PostRepository;
 import com.nextlevel.domain.post.dto.request.PostRequestDto;
+import com.nextlevel.global.exception.ErrorCode;
+import com.nextlevel.global.exception.ProfileApplicationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +27,7 @@ public class PostService {
 
     public PostResponseDto updatePost(Long postId, PostRequestDto postRequestDto) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.POST_NOT_FOUND));
         post.update(postRequestDto);
 
         return mapper.postToPostResponseDto(post);
@@ -34,7 +36,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public PostResponseDto findPost(Long postId) {
         Post findPost = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.POST_NOT_FOUND));
 
         return mapper.postToPostResponseDto(findPost);
     }

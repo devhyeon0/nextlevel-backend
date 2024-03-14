@@ -5,6 +5,8 @@ import com.nextlevel.domain.post.dto.response.CommentReactionResponseDto;
 import com.nextlevel.domain.post.entity.CommentReaction;
 import com.nextlevel.domain.post.mapper.CommentReactionMapper;
 import com.nextlevel.domain.post.repository.CommentReactionRepository;
+import com.nextlevel.global.exception.ErrorCode;
+import com.nextlevel.global.exception.ProfileApplicationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +27,7 @@ public class CommentReactionService {
 
     public CommentReactionResponseDto updateReaction(Long commentReactionId, CommentReactionRequestDto commentReactionRequestDto) {
         CommentReaction findCommentReaction = commentReactionRepository.findById(commentReactionId)
-                .orElseThrow(() -> new IllegalArgumentException("확인된 반응이 없습니다."));
+                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.REACTION_NOT_FOUND));
 
         findCommentReaction.update(commentReactionRequestDto);
 
@@ -35,7 +37,7 @@ public class CommentReactionService {
     @Transactional(readOnly = true)
     public CommentReactionResponseDto findCommentReaction(Long commentReactionId) {
         CommentReaction findCommentReaction = commentReactionRepository.findById(commentReactionId)
-                .orElseThrow(() -> new IllegalArgumentException("확인된 반응이 없습니다."));
+                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.REACTION_NOT_FOUND));
 
         return mapper.commentReactionToCommentReactionResponseDto(findCommentReaction);
     }

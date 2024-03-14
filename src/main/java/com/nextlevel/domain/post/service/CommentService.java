@@ -5,6 +5,8 @@ import com.nextlevel.domain.post.dto.response.CommentResponseDto;
 import com.nextlevel.domain.post.entity.Comment;
 import com.nextlevel.domain.post.mapper.CommentMapper;
 import com.nextlevel.domain.post.repository.CommentRepository;
+import com.nextlevel.global.exception.ErrorCode;
+import com.nextlevel.global.exception.ProfileApplicationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +27,7 @@ public class CommentService {
 
     public CommentResponseDto updateComment(Long commentId, CommentRequestDto commentRequestDto) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
+                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.COMMENT_NOT_FOUND));
         comment.update(commentRequestDto);
 
         return mapper.commentToCommentResponseDto(comment);
@@ -34,7 +36,7 @@ public class CommentService {
     @Transactional(readOnly = true)
     public CommentResponseDto getComment(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
+                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.COMMENT_NOT_FOUND));
 
         return mapper.commentToCommentResponseDto(comment);
     }

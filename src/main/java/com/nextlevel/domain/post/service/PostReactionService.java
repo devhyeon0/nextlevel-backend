@@ -5,6 +5,8 @@ import com.nextlevel.domain.post.mapper.PostReactionMapper;
 import com.nextlevel.domain.post.repository.PostReactionRepository;
 import com.nextlevel.domain.post.dto.response.PostReactionResponseDto;
 import com.nextlevel.domain.post.entity.PostReaction;
+import com.nextlevel.global.exception.ErrorCode;
+import com.nextlevel.global.exception.ProfileApplicationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +27,7 @@ public class PostReactionService {
 
     public PostReactionResponseDto updateReaction(Long postReactionId, PostReactionRequestDto postReactionRequestDto) {
         PostReaction findPostReaction = postReactionRepository.findById(postReactionId)
-                .orElseThrow(() -> new IllegalArgumentException("확인된 반응이 없습니다."));
+                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.REACTION_NOT_FOUND));
 
         findPostReaction.update(postReactionRequestDto);
 
@@ -35,7 +37,7 @@ public class PostReactionService {
     @Transactional(readOnly = true)
     public PostReactionResponseDto findPostReaction(Long postReactionId) {
         PostReaction findPostReaction = postReactionRepository.findById(postReactionId)
-                .orElseThrow(() -> new IllegalArgumentException("확인된 반응이 없습니다."));
+                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.REACTION_NOT_FOUND));
 
         return mapper.postReactionToPostReactionResponseDto(findPostReaction);
     }

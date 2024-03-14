@@ -5,6 +5,8 @@ import com.nextlevel.domain.post.mapper.CategoryMapper;
 import com.nextlevel.domain.post.repository.CategoryRepository;
 import com.nextlevel.domain.post.dto.request.CategoryRequestDto;
 import com.nextlevel.domain.post.entity.Category;
+import com.nextlevel.global.exception.ErrorCode;
+import com.nextlevel.global.exception.ProfileApplicationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +27,7 @@ public class CategoryService {
 
     public CategoryResponseDto updateCategory(Long categoryId, CategoryRequestDto categoryRequestDto) {
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new IllegalArgumentException("카테고리가 존재하지 않습니다."));
+                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.CATEGORY_NOT_FOUND));
 
         category.update(categoryRequestDto);
 
@@ -35,7 +37,7 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public CategoryResponseDto getCategory(Long categoryId) {
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new IllegalArgumentException("카테고리가 존재하지 않습니다."));
+                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.CATEGORY_NOT_FOUND));
 
         return mapper.categoryToCategoryResponseDto(category);
     }
