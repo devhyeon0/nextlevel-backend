@@ -93,7 +93,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             writer.close();
         }
         filterChain.doFilter(request, response);
-
     }
 
     private JSONObject jsonResponseWrapper(Exception e) {

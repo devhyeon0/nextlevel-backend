@@ -31,8 +31,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String userPassword = (String) token.getCredentials();
 
         SecurityUserDetailsDto securityUserDetailsDto = (SecurityUserDetailsDto) userDetailsService.loadUserByUsername(loginId);
+        String encodePassword = bCryptPasswordEncoder().encode(securityUserDetailsDto.getPassword());
 
-        if (!bCryptPasswordEncoder().matches(userPassword, securityUserDetailsDto.getUserDto().getPw())) {
+        if (!bCryptPasswordEncoder().matches(userPassword, encodePassword)) {
             throw new BadCredentialsException(securityUserDetailsDto.getUsername() + " Invalid password");
         }
 

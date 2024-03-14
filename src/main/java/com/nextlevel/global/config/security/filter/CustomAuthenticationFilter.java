@@ -45,9 +45,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             objectMapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
 
             UserLoginDto user = objectMapper.readValue(request.getInputStream(), UserLoginDto.class);
-            log.debug("1.CustomAuthenticationFilter :: loginId: {}, userPw: {}", user.getEmail(), user.getPw());
+            log.debug("1.CustomAuthenticationFilter :: loginId: {}, userPw: {}", user.email(), user.password());
 
-            return new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPw());
+            return new UsernamePasswordAuthenticationToken(user.email(), user.password());
         } catch (UsernameNotFoundException e) {
             throw new UsernameNotFoundException(e.getMessage());
         } catch (Exception e) {

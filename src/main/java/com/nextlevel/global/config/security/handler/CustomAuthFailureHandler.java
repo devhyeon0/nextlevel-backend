@@ -23,12 +23,12 @@ public class CustomAuthFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         String failMessage = checkException(exception);
-        
+
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
 
         try (PrintWriter printWriter = response.getWriter()) {
-            log.debug(failMessage);
+            log.debug("[+] CustomAuthFailureHandler: {}", failMessage);
 
             HashMap<String, Object> resultMap = new HashMap<>();
             resultMap.put("userInfo", null);
@@ -54,6 +54,8 @@ public class CustomAuthFailureHandler implements AuthenticationFailureHandler {
             failMessage = "계정이 만료되었습니다.";
         } else if (exception instanceof CredentialsExpiredException) {
             failMessage = "인증 정보가 만료되었습니다.";
+        } else {
+            failMessage = exception.getMessage();
         }
         return failMessage;
     }
