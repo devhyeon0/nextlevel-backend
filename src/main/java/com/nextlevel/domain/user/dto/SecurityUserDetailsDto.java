@@ -22,17 +22,17 @@ public class SecurityUserDetailsDto implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(userDto.getUserRole().toString()));
+        return Collections.singleton(new SimpleGrantedAuthority(userDto.userRole().toString()));
     }
 
     @Override
     public String getPassword() {
-        return userDto.getPw();
+        return userDto.password();
     }
 
     @Override
     public String getUsername() {
-        return userDto.getEmail();
+        return userDto.email();
     }
 
     @Override

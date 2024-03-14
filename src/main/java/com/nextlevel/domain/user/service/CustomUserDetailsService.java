@@ -34,6 +34,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         UserLoginDto userLoginDto = mapper.userToUserLoginDto(user);
 
         return new SecurityUserDetailsDto(userLoginDto,
-                Collections.singleton(new SimpleGrantedAuthority(userLoginDto.getUserRole().toString())));
+                Collections.singleton(new SimpleGrantedAuthority(userLoginDto.userRole().toString())));
     }
 }

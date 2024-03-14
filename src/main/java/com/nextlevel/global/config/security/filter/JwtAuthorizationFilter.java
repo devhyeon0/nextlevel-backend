@@ -60,11 +60,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         try {
             if (token != null && !token.equalsIgnoreCase("")) {
                 if (TokenUtils.isValidToken(token)) {
-                    String loginId = TokenUtils.getUserIdFromToken(token);
-                    log.debug("[+] loginId Check: {}", loginId);
+                    String email = TokenUtils.getUserIdFromToken(token);
+                    log.debug("[+] email Check: {}", email);
 
-                    if (loginId != null && !loginId.equalsIgnoreCase("")) {
-                        UserDetails userDetails = userDetailsService.loadUserByUsername(loginId);
+                    if (email != null && !email.equalsIgnoreCase("")) {
+                        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                         filterChain.doFilter(request, response);
