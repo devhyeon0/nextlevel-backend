@@ -1,11 +1,11 @@
-package com.nextlevel.global.config;
+package com.nextlevel.config;
 
-import com.nextlevel.domain.user.service.CustomUserDetailsService;
-import com.nextlevel.global.config.security.filter.CustomAuthenticationFilter;
-import com.nextlevel.global.config.security.filter.JwtAuthorizationFilter;
-import com.nextlevel.global.config.security.handler.CustomAuthFailureHandler;
-import com.nextlevel.global.config.security.handler.CustomAuthSuccessHandler;
-import com.nextlevel.global.config.security.handler.CustomAuthenticationProvider;
+import com.nextlevel.user.service.CustomUserDetailsService;
+import com.nextlevel.config.security.filter.CustomAuthenticationFilter;
+import com.nextlevel.config.security.filter.JwtAuthorizationFilter;
+import com.nextlevel.config.security.handler.CustomAuthFailureHandler;
+import com.nextlevel.config.security.handler.CustomAuthSuccessHandler;
+import com.nextlevel.config.security.handler.CustomAuthenticationProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;

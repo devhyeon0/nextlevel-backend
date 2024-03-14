@@ -1,10 +1,9 @@
-package com.nextlevel.global.config.security.jwt;
+package com.nextlevel.config.security.jwt;
 
-import com.nextlevel.domain.user.dto.UserDto;
+import com.nextlevel.user.dto.UserResponseDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
@@ -19,19 +18,19 @@ import java.util.Map;
 @Component
 public class TokenUtils {
 
-    @Value(value = "${jwt.secretKey}")
-    private static String jwtSecretKey;
+//    @Value("${jwt.secretKey}")
+    private static final String jwtSecretKey = "dGhpc0lzU2VjcmV0S2V5SldUU2VjcmV0U2VjcmV0TmV4dExldmVsSnd0U2VjcmV0S2V5MjAyNDAzMTBXcml0ZQo=";
     private static final Key key = Keys.hmacShaKeyFor(jwtSecretKey.getBytes(StandardCharsets.UTF_8));
     private static final String JWT_TYPE = "JWT";
     private static final String ALGORITHM = "HS256";
     private static final String LOGIN_ID = "loginId";
     private static final String USERNAME = "username";
 
-    public static String generateJwtToken(UserDto userDto) {
+    public static String generateJwtToken(UserResponseDto userDto) {
         JwtBuilder builder = Jwts.builder()
                 .setHeader(createHeader())
                 .setClaims(createClaims(userDto))
-                .setSubject(String.valueOf(userDto.email()))
+                .setSubject(String.valueOf(userDto.getEmail()))
                 .setIssuer("profile")
                 .signWith(key, SignatureAlgorithm.HS256)
                 .setExpiration(createExpireDate());
@@ -75,14 +74,14 @@ public class TokenUtils {
         return header;
     }
 
-    private static Map<String, Object> createClaims(UserDto userDto) {
+    private static Map<String, Object> createClaims(UserResponseDto userDto) {
         Map<String, Object> claims = new HashMap<>();
 
-        log.info("loginId: {}", userDto.email());
-        log.info("username: {}", userDto.nickname());
+        log.info("loginId: {}", userDto.getEmail());
+        log.info("username: {}", userDto.getNickname());
 
-        claims.put(LOGIN_ID, userDto.email());
-        claims.put(USERNAME, userDto.nickname());
+        claims.put(LOGIN_ID, userDto.getEmail());
+        claims.put(USERNAME, userDto.getNickname());
         return claims;
     }
 

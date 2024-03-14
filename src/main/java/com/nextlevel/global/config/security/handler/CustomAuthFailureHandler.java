@@ -23,7 +23,7 @@ public class CustomAuthFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         String failMessage = checkException(exception);
-
+        
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
 

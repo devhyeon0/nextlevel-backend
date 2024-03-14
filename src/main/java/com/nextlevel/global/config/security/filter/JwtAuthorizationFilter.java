@@ -41,7 +41,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             return;
         }
 
-            if (request.getMethod().equalsIgnoreCase("OPTIONS")) {
+        if (request.getMethod().equalsIgnoreCase("OPTIONS")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -92,6 +92,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             writer.flush();
             writer.close();
         }
+        filterChain.doFilter(request, response);
+
     }
 
     private JSONObject jsonResponseWrapper(Exception e) {

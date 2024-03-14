@@ -1,7 +1,7 @@
 package com.nextlevel.domain.post.entity;
 
-import com.nextlevel.global.audit.BaseEntity;
 import com.nextlevel.domain.post.dto.request.CommentRequestDto;
+import com.nextlevel.global.audit.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

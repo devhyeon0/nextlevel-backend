@@ -17,41 +17,41 @@ import java.util.Collections;
 public class SecurityUserDetailsDto implements UserDetails {
 
     @Delegate
-    private UserDto userDto;
+    private UserLoginDto userDto;
     private Collection<? extends GrantedAuthority> authorities;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(userDto.userRole().toString()));
+        return Collections.singleton(new SimpleGrantedAuthority(userDto.getUserRole().toString()));
     }
 
     @Override
     public String getPassword() {
-        return userDto.password();
+        return userDto.getPw();
     }
 
     @Override
     public String getUsername() {
-        return userDto.email();
+        return userDto.getEmail();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

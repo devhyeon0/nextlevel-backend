@@ -3,7 +3,8 @@ package com.nextlevel.global.config.security.handler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.nextlevel.domain.user.dto.SecurityUserDetailsDto;
-import com.nextlevel.domain.user.dto.UserDto;
+import com.nextlevel.domain.user.dto.UserLoginDto;
+import com.nextlevel.domain.user.dto.UserResponseDto;
 import com.nextlevel.global.config.security.jwt.TokenUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -28,9 +29,9 @@ public class CustomAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
-        log.debug("3. CustomLoginSuccessHandler");
+        log.debug("3.CustomLoginSuccessHandler");
 
-        UserDto userDto = ((SecurityUserDetailsDto) authentication.getPrincipal()).getUserDto();
+        UserLoginDto userDto = ((SecurityUserDetailsDto) authentication.getPrincipal()).getUserDto();
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
@@ -39,7 +40,7 @@ public class CustomAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
         HashMap<String, Object> responseMap = new HashMap<>();
         responseMap.put("userInfo", userDtoObject);
 
-        if (Objects.equals(userDto.status(), "INACTIVE")) {
+        if (Objects.equals(userDto.getStatus(), "INACTIVE")) {
             responseMap.put("resultCode", 9001);
             responseMap.put("token", null);
             responseMap.put("failMessage", "휴면 계정입니다.");

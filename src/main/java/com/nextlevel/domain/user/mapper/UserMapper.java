@@ -1,8 +1,8 @@
 package com.nextlevel.domain.user.mapper;
 
-import com.nextlevel.domain.user.dto.UserDto;
-import com.nextlevel.domain.user.dto.UserRequestDto;
+import com.nextlevel.domain.user.dto.UserLoginDto;
 import com.nextlevel.domain.user.dto.UserResponseDto;
+import com.nextlevel.domain.user.dto.UserRequestDto;
 import com.nextlevel.domain.user.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,6 +18,5 @@ public interface UserMapper {
     @Mapping(source = "userId", target = "id")
     User userResponseDtoToUser(UserResponseDto userResponseDto);
 
-    @Mapping(source = "id", target = "userId")
-    UserDto userToUserDto(User user);
+    UserLoginDto userToUserLoginDto(User user);
 }

@@ -23,7 +23,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        log.debug("2. CustomAuthenticationProvider");
+        log.debug("2.CustomAuthenticationProvider");
 
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
 
@@ -32,7 +32,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         SecurityUserDetailsDto securityUserDetailsDto = (SecurityUserDetailsDto) userDetailsService.loadUserByUsername(loginId);
 
-        if (!bCryptPasswordEncoder().matches(userPassword, securityUserDetailsDto.getUserDto().password())) {
+        if (!bCryptPasswordEncoder().matches(userPassword, securityUserDetailsDto.getUserDto().getPw())) {
             throw new BadCredentialsException(securityUserDetailsDto.getUsername() + " Invalid password");
         }
 
