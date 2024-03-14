@@ -1,11 +1,11 @@
-package com.nextlevel.config;
+package com.nextlevel.global.config;
 
-import com.nextlevel.user.service.CustomUserDetailsService;
-import com.nextlevel.config.security.filter.CustomAuthenticationFilter;
-import com.nextlevel.config.security.filter.JwtAuthorizationFilter;
-import com.nextlevel.config.security.handler.CustomAuthFailureHandler;
-import com.nextlevel.config.security.handler.CustomAuthSuccessHandler;
-import com.nextlevel.config.security.handler.CustomAuthenticationProvider;
+import com.nextlevel.domain.user.service.CustomUserDetailsService;
+import com.nextlevel.global.config.security.filter.CustomAuthenticationFilter;
+import com.nextlevel.global.config.security.filter.JwtAuthorizationFilter;
+import com.nextlevel.global.config.security.handler.CustomAuthFailureHandler;
+import com.nextlevel.global.config.security.handler.CustomAuthSuccessHandler;
+import com.nextlevel.global.config.security.handler.CustomAuthenticationProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -16,13 +16,13 @@ import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -62,14 +62,14 @@ public class SecurityConfig {
                         .requestMatchers(GET, "/api/categories/**").permitAll()
                         .requestMatchers(GET, "/api/post-reaction/**").permitAll()
                         .requestMatchers(GET, "/api/comment-reaction/**").permitAll()
+                        .requestMatchers(PathRequest.toH2Console()).permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthorizationFilter, BasicAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .formLogin(login -> login
-                        .loginPage("/login")
-                        .successHandler(new SimpleUrlAuthenticationSuccessHandler("/"))
-                        .permitAll())
-                .addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
 
         return http.build();
     }
@@ -80,7 +80,7 @@ public class SecurityConfig {
         corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
         corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
         corsConfiguration.setAllowedHeaders(Arrays.asList("X-Requested-With", "Content-Type", "Authorization", "X-XSRF-token"));
-        corsConfiguration.setAllowCredentials(false);
+        corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
