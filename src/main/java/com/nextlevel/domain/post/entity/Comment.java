@@ -20,8 +20,7 @@ public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "commnet_id")
-    private Long id;
+    private Long commentId;
 
     @Column(nullable = false)
     private String content;

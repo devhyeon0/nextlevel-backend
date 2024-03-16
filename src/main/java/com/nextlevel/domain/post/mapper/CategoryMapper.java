@@ -12,9 +12,6 @@ import java.util.List;
 public interface CategoryMapper {
 
     Category categoryRequestDtoToCategory(CategoryRequestDto categoryRequestDto);
-
-    @Mapping(source = "id", target = "categoryId")
     CategoryResponseDto categoryToCategoryResponseDto(Category category);
-
     List<CategoryResponseDto> categoriesToCategoryResponseDtos(List<Category> categories);
 }

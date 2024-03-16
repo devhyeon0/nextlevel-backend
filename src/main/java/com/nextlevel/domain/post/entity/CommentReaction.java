@@ -18,8 +18,7 @@ public class CommentReaction extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_reaction_id")
-    private Long id;
+    private Long commentReactionId;
 
     private ReactionType reactionType;
 

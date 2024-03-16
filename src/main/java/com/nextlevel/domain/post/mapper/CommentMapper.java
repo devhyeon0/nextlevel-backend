@@ -12,9 +12,6 @@ import java.util.List;
 public interface CommentMapper {
 
     Comment commentRequestDtoToComment(CommentRequestDto commentRequestDto);
-
-    @Mapping(source = "id", target = "commentId")
     CommentResponseDto commentToCommentResponseDto(Comment comment);
-
     List<CommentResponseDto> commentsToCommentResponseDtos(List<Comment> comments);
 }

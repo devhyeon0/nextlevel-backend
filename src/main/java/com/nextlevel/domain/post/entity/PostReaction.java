@@ -18,8 +18,7 @@ public class PostReaction extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_reaction_id")
-    private Long id;
+    private Long postReactionId;
 
     private ReactionType reactionType;
 

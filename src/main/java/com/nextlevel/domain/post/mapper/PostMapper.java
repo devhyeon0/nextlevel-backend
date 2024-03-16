@@ -13,12 +13,7 @@ public interface PostMapper {
 
     @Mapping(source = "categoryName", target = "category", ignore = true)
     Post postRequestDtoToPost(PostRequestDto postRequestDto);
-
-    @Mapping(source = "id", target = "postId")
     PostResponseDto postToPostResponseDto(Post post);
-
-    @Mapping(source = "postId", target = "id")
     Post postResponseDtoToPost(PostResponseDto postResponseDto);
-
     List<PostResponseDto> postsToPostResponseDtos(List<Post> posts);
 }

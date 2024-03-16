@@ -11,8 +11,6 @@ import java.util.List;
 public interface CommentReactionMapper {
 
     CommentReaction commentReactionRequestDtoToCommentReaction(CommentReactionRequestDto commentReactionRequestDto);
-
     CommentReactionResponseDto commentReactionToCommentReactionResponseDto(CommentReaction commentReaction);
-
     List<CommentReactionResponseDto> allCommentReactionToCommentReactionResponseDtos(List<CommentReaction> allCommentReaction);
 }

@@ -11,13 +11,7 @@ import org.mapstruct.Mapping;
 public interface UserMapper {
 
     User userRequestDtoToUser(UserRequestDto userRequestDto);
-
-    @Mapping(source = "id", target = "userId")
     UserResponseDto userToUserResponseDto(User user);
-
-    @Mapping(source = "userId", target = "id")
     User userResponseDtoToUser(UserResponseDto userResponseDto);
-
-    @Mapping(source = "id", target = "userId")
     UserLoginDto userToUserLoginDto(User user);
 }

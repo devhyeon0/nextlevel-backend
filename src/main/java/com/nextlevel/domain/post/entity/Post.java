@@ -22,8 +22,7 @@ public class Post extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id")
-    private Long id;
+    private Long postId;
 
     @Column(nullable = false)
     private String title;
@@ -39,6 +38,10 @@ public class Post extends BaseEntity {
 
     @Column(nullable = false)
     private Integer reportCount;
+
+    public void addViewCount() {
+        this.views += 1;
+    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

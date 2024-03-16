@@ -12,9 +12,6 @@ import java.util.List;
 public interface PostReactionMapper {
 
     PostReaction PostReactionRequestDtoToPostReaction(PostReactionRequestDto postReactionRequestDto);
-
-    @Mapping(source = "id", target = "postReactionId")
     PostReactionResponseDto postReactionToPostReactionResponseDto(PostReaction findPostReaction);
-
     List<PostReactionResponseDto> allPostReactionToPostReactionResponseDtos(List<PostReaction> allPostReaction);
 }
