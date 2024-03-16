@@ -1,5 +1,6 @@
 package com.nextlevel.domain.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nextlevel.domain.post.entity.Comment;
 import com.nextlevel.domain.post.entity.CommentReaction;
 import com.nextlevel.domain.post.entity.Post;
@@ -32,6 +33,7 @@ public class User extends BaseTimeEntity {
     private String email;
 
     @Column(nullable = false, length = 30)
+    @JsonIgnore
     private String password;
 
     @Column(nullable = false, unique = true, length = 20)
