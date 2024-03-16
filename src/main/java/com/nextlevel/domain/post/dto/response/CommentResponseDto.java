@@ -1,5 +1,6 @@
 package com.nextlevel.domain.post.dto.response;
 
+import com.nextlevel.domain.user.dto.UserResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -10,4 +11,6 @@ public class CommentResponseDto {
     public Long commentId;
     public String content;
     public Integer reportCount;
+    private PostResponseDto post;
+    private UserResponseDto user;
 }

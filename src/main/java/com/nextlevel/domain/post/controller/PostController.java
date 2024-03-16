@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,8 +21,9 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<Objects> createPost(@Valid @RequestBody PostRequestDto postRequestDto) {
-        postService.createPost(postRequestDto);
+    public ResponseEntity<Objects> createPost(@Valid @RequestBody PostRequestDto postRequestDto,
+                                              Principal principal) {
+        postService.createPost(postRequestDto, principal);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

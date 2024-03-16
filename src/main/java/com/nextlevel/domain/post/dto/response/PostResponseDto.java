@@ -1,6 +1,7 @@
 package com.nextlevel.domain.post.dto.response;
 
 import com.nextlevel.domain.post.entity.PostStatus;
+import com.nextlevel.domain.user.dto.UserResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,5 +15,6 @@ public class PostResponseDto {
      private Long views;
      private PostStatus status;
      private Integer reportCount;
-     private Integer createIp;
+     private UserResponseDto user;
+     private CategoryResponseDto category;
 }

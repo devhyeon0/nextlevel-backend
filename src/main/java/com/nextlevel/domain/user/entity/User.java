@@ -1,10 +1,16 @@
 package com.nextlevel.domain.user.entity;
 
+import com.nextlevel.domain.post.entity.Comment;
+import com.nextlevel.domain.post.entity.CommentReaction;
+import com.nextlevel.domain.post.entity.Post;
+import com.nextlevel.domain.post.entity.PostReaction;
 import com.nextlevel.global.audit.BaseTimeEntity;
 import com.nextlevel.domain.user.dto.UserRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static jakarta.persistence.EnumType.*;
@@ -42,6 +48,34 @@ public class User extends BaseTimeEntity {
     @Enumerated(STRING)
     @Column(nullable = false)
     private UserStatus status;
+
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<PostReaction> postReactions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<CommentReaction> commentReactions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments = new ArrayList<>();
+
+    public void mappingPost(Post post) {
+        posts.add(post);
+    }
+
+    public void mappingPostReaction(PostReaction postReaction) {
+        postReactions.add(postReaction);
+    }
+
+    public void mappingCommentReaction(CommentReaction commentReaction) {
+        commentReactions.add(commentReaction);
+    }
+
+    public void mappingComment(Comment comment) {
+        comments.add(comment);
+    }
 
     public void update(UserRequestDto userDto) {
         Optional.ofNullable(userDto.getNickname()).ifPresent(value -> this.nickname = value);

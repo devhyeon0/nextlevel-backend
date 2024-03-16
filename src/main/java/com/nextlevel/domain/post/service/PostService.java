@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -19,10 +20,10 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final PostMapper mapper;
+    private final PostMapper postMapper;
 
-    public void createPost(PostRequestDto postRequestDto) {
-        postRepository.save(mapper.postRequestDtoToPost(postRequestDto));
+    public void createPost(PostRequestDto postRequestDto, Principal principal) {
+        postRepository.save(postMapper.postRequestDtoToPost(postRequestDto));
     }
 
     public PostResponseDto updatePost(Long postId, PostRequestDto postRequestDto) {
@@ -30,7 +31,7 @@ public class PostService {
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.POST_NOT_FOUND));
         post.update(postRequestDto);
 
-        return mapper.postToPostResponseDto(post);
+        return postMapper.postToPostResponseDto(post);
     }
 
     @Transactional(readOnly = true)
@@ -38,14 +39,14 @@ public class PostService {
         Post findPost = postRepository.findById(postId)
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.POST_NOT_FOUND));
 
-        return mapper.postToPostResponseDto(findPost);
+        return postMapper.postToPostResponseDto(findPost);
     }
 
     @Transactional(readOnly = true)
     public List<PostResponseDto> findPosts() {
         List<Post> posts = postRepository.findAll();
 
-        return mapper.postsToPostResponseDtos(posts);
+        return postMapper.postsToPostResponseDtos(posts);
     }
 
     public void deletePost(Long postId) {

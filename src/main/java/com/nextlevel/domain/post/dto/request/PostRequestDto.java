@@ -1,6 +1,8 @@
 package com.nextlevel.domain.post.dto.request;
 
+import com.nextlevel.domain.post.dto.response.CategoryResponseDto;
 import com.nextlevel.domain.post.entity.PostStatus;
+import com.nextlevel.domain.user.dto.UserResponseDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -18,5 +20,6 @@ public class PostRequestDto {
     private Long views;
     private PostStatus status;
     private Integer reportCount;
-    private Integer createIp;
+    private UserResponseDto user;
+    private CategoryResponseDto category;
 }

@@ -5,6 +5,8 @@ import com.nextlevel.global.audit.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Getter
@@ -25,6 +27,13 @@ public class Category extends BaseTimeEntity {
 
     @Column(nullable = false)
     private boolean enabled;
+
+    @OneToMany(mappedBy = "category")
+    private List<Post> posts = new ArrayList<>();
+
+    public void mappingPost(Post post) {
+        posts.add(post);
+    }
 
     public void update(CategoryRequestDto categoryRequestDto) {
         Optional.ofNullable(categoryRequestDto.getName()).ifPresent(value -> this.name = value);

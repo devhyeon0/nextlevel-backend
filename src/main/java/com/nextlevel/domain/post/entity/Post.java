@@ -1,10 +1,13 @@
 package com.nextlevel.domain.post.entity;
 
+import com.nextlevel.domain.user.entity.User;
 import com.nextlevel.global.audit.BaseEntity;
 import com.nextlevel.domain.post.dto.request.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static jakarta.persistence.EnumType.*;
@@ -37,8 +40,37 @@ public class Post extends BaseEntity {
     @Column(nullable = false)
     private Integer reportCount;
 
-    @Column(nullable = false)
-    private Integer createIp;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post")
+    private List<PostReaction> postReactions = new ArrayList<>();
+
+    public void mappingUser(User user) {
+        this.user = user;
+        user.mappingPost(this);
+    }
+
+    public void mappingCategory(Category category) {
+        this.category = category;
+        category.mappingPost(this);
+    }
+
+    public void mappingComment(Comment comment) {
+        comments.add(comment);
+    }
+
+    public void mappingPostReaction(PostReaction postReaction) {
+        postReactions.add(postReaction);
+    }
 
     public void update(PostRequestDto postDto) {
         Optional.ofNullable(postDto.getTitle()).ifPresent(value -> this.title = value);

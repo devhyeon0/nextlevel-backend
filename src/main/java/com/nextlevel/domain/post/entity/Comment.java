@@ -1,10 +1,13 @@
 package com.nextlevel.domain.post.entity;
 
 import com.nextlevel.domain.post.dto.request.CommentRequestDto;
+import com.nextlevel.domain.user.entity.User;
 import com.nextlevel.global.audit.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Getter
@@ -25,6 +28,31 @@ public class Comment extends BaseEntity {
 
     @Column(nullable = false)
     private Integer reportCount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    @OneToMany(mappedBy = "comment")
+    private List<CommentReaction> commentReactions = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public void mappingPost(Post post) {
+        this.post = post;
+        post.mappingComment(this);
+    }
+
+    public void mappingCommentReaction(CommentReaction commentReaction) {
+        commentReactions.add(commentReaction);
+    }
+
+    public void mappingUser(User user) {
+        this.user = user;
+        user.mappingComment(this);
+    }
 
     public void update(CommentRequestDto commentDto) {
         Optional.ofNullable(commentDto.getContent()).ifPresent(value -> this.content = value);
