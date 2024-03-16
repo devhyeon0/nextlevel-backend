@@ -11,6 +11,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface PostMapper {
 
+    @Mapping(source = "categoryName", target = "category", ignore = true)
     Post postRequestDtoToPost(PostRequestDto postRequestDto);
 
     @Mapping(source = "id", target = "postId")

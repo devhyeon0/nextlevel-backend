@@ -1,6 +1,5 @@
 package com.nextlevel.domain.post.dto.request;
 
-import com.nextlevel.domain.post.dto.response.CategoryResponseDto;
 import com.nextlevel.domain.post.entity.PostStatus;
 import com.nextlevel.domain.user.dto.UserResponseDto;
 import jakarta.validation.constraints.NotBlank;
@@ -21,5 +20,5 @@ public class PostRequestDto {
     private PostStatus status;
     private Integer reportCount;
     private UserResponseDto user;
-    private CategoryResponseDto category;
+    private String categoryName;
 }
