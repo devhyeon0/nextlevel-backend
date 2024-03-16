@@ -34,7 +34,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        List<String> notNecessaryTokenUrl = Arrays.asList("/login", "/images/**");
+        List<String> notNecessaryTokenUrl = Arrays.asList("/login", "/images/**", "/user/login");
 
         if(notNecessaryTokenUrl.contains(request.getRequestURI())) {
             filterChain.doFilter(request, response);
@@ -67,7 +67,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                         SecurityContextHolder.getContext().setAuthentication(authentication);
-                        filterChain.doFilter(request, response);
                     } else {
                         throw new ProfileApplicationException(ErrorCode.TOKEN_NOT_VALID);
                     }
@@ -92,6 +91,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             writer.flush();
             writer.close();
         }
+
         filterChain.doFilter(request, response);
     }
 
