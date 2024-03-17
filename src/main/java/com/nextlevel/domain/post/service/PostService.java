@@ -70,4 +70,10 @@ public class PostService {
     public void deletePost(Long postId) {
         postRepository.deleteById(postId);
     }
+
+    public void addViewCount(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.POST_NOT_FOUND));
+        post.addViewCount();
+    }
 }

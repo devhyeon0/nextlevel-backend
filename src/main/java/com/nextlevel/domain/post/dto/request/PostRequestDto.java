@@ -16,7 +16,6 @@ public class PostRequestDto {
 
     @NotNull
     private String content;
-    private Long views;
     private PostStatus status;
     private Integer reportCount;
     private UserResponseDto user;

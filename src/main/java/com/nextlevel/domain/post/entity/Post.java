@@ -5,6 +5,7 @@ import com.nextlevel.global.audit.BaseEntity;
 import com.nextlevel.domain.post.dto.request.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +30,8 @@ public class Post extends BaseEntity {
 
     private String content;
 
-    @Column(nullable = false)
-    private Long views;
+    @Column(nullable = false, columnDefinition = "integer default 0")
+    private int views;
 
     @Enumerated(STRING)
     @Column(nullable = false)
@@ -78,7 +79,6 @@ public class Post extends BaseEntity {
     public void update(PostRequestDto postDto) {
         Optional.ofNullable(postDto.getTitle()).ifPresent(value -> this.title = value);
         Optional.ofNullable(postDto.getContent()).ifPresent(value -> this.content = value);
-        Optional.ofNullable(postDto.getViews()).ifPresent(value -> this.views = value);
         Optional.ofNullable(postDto.getStatus()).ifPresent(value -> this.status = value);
         Optional.ofNullable(postDto.getReportCount()).ifPresent(value -> this.reportCount = value);
     }

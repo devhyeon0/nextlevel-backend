@@ -3,6 +3,9 @@ package com.nextlevel.domain.post.controller;
 import com.nextlevel.domain.post.dto.request.PostRequestDto;
 import com.nextlevel.domain.post.dto.response.PostResponseDto;
 import com.nextlevel.domain.post.service.PostService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,9 +40,11 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostResponseDto> getPost(@PathVariable("id") Long postId) {
+    public ResponseEntity<PostResponseDto> getPost(@PathVariable("id") Long postId,
+                                                   HttpServletRequest request,
+                                                   HttpServletResponse response) {
         PostResponseDto postResponseDto = postService.findPost(postId);
-
+        addViewCount(postId, request, response);
         return ResponseEntity.ok(postResponseDto);
     }
 
@@ -55,5 +60,34 @@ public class PostController {
         postService.deletePost(postId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    private void addViewCount(Long postId, HttpServletRequest request, HttpServletResponse response) {
+        Cookie oldCookie = null;
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("postView")) {
+                    oldCookie = cookie;
+                }
+            }
+        }
+
+        if (oldCookie != null) {
+            if (!oldCookie.getValue().contains("[" + postId.toString() + "]")) {
+                postService.addViewCount(postId);
+                oldCookie.setValue(oldCookie.getValue() + "_[" + postId + "]");
+                oldCookie.setPath("/");
+                oldCookie.setMaxAge(60 * 60 * 24);
+                response.addCookie(oldCookie);
+            }
+        } else {
+            postService.addViewCount(postId);
+            Cookie newCookie = new Cookie("postView", "[" + postId + "]");
+            newCookie.setPath("/");
+            newCookie.setMaxAge(60 * 60 * 24);
+            response.addCookie(newCookie);
+        }
     }
 }
