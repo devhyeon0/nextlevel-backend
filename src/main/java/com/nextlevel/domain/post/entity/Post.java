@@ -5,7 +5,6 @@ import com.nextlevel.global.audit.BaseEntity;
 import com.nextlevel.domain.post.dto.request.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
