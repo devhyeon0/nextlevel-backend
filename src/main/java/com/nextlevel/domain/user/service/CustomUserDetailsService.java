@@ -2,11 +2,10 @@ package com.nextlevel.domain.user.service;
 
 import com.nextlevel.domain.user.dto.SecurityUserDetailsDto;
 import com.nextlevel.domain.user.dto.UserLoginDto;
-import com.nextlevel.domain.user.dto.UserResponseDto;
 import com.nextlevel.domain.user.mapper.UserMapper;
 import com.nextlevel.domain.user.entity.User;
 import com.nextlevel.domain.user.repository.UserRepository;
-import com.nextlevel.global.exception.ErrorCode;
+import com.nextlevel.global.codes.ErrorCode;
 import com.nextlevel.global.exception.ProfileApplicationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

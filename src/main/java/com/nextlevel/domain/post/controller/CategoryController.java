@@ -3,6 +3,8 @@ package com.nextlevel.domain.post.controller;
 import com.nextlevel.domain.post.dto.request.CategoryRequestDto;
 import com.nextlevel.domain.post.dto.response.CategoryResponseDto;
 import com.nextlevel.domain.post.service.CategoryService;
+import com.nextlevel.global.dto.MultiResponseDto;
+import com.nextlevel.global.dto.SingleResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,25 +29,25 @@ public class CategoryController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<CategoryResponseDto> patchCategory(@PathVariable("id") Long categoryId,
-                                                             @Valid @RequestBody CategoryRequestDto categoryRequestDto) {
+    public ResponseEntity<SingleResponseDto> patchCategory(@PathVariable("id") Long categoryId,
+                                                           @Valid @RequestBody CategoryRequestDto categoryRequestDto) {
         CategoryResponseDto categoryResponseDto = categoryService.updateCategory(categoryId, categoryRequestDto);
 
-        return ResponseEntity.ok(categoryResponseDto);
+        return ResponseEntity.ok(new SingleResponseDto<>(categoryResponseDto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryResponseDto> getCategory(@PathVariable("id") Long categoryId) {
+    public ResponseEntity<SingleResponseDto> getCategory(@PathVariable("id") Long categoryId) {
         CategoryResponseDto categoryResponseDto = categoryService.getCategory(categoryId);
 
-        return ResponseEntity.ok(categoryResponseDto);
+        return ResponseEntity.ok(new SingleResponseDto<>(categoryResponseDto));
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponseDto>> getCategories() {
+    public ResponseEntity<MultiResponseDto> getCategories() {
         List<CategoryResponseDto> categoryResponseDtos = categoryService.getCategories();
 
-        return ResponseEntity.ok(categoryResponseDtos);
+        return ResponseEntity.ok(new MultiResponseDto<>(categoryResponseDtos));
     }
 
     @DeleteMapping("/{id}")

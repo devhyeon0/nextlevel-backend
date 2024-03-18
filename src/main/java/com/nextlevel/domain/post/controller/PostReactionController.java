@@ -3,6 +3,8 @@ package com.nextlevel.domain.post.controller;
 import com.nextlevel.domain.post.dto.request.PostReactionRequestDto;
 import com.nextlevel.domain.post.service.PostReactionService;
 import com.nextlevel.domain.post.dto.response.PostReactionResponseDto;
+import com.nextlevel.global.dto.MultiResponseDto;
+import com.nextlevel.global.dto.SingleResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,25 +29,25 @@ public class PostReactionController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PostReactionResponseDto> patchReaction(@PathVariable("id") Long postReactionId,
-                                                                 @Valid @RequestBody PostReactionRequestDto postReactionRequestDto) {
+    public ResponseEntity<SingleResponseDto> patchReaction(@PathVariable("id") Long postReactionId,
+                                                           @Valid @RequestBody PostReactionRequestDto postReactionRequestDto) {
         PostReactionResponseDto postReactionResponseDto = postReactionService.updateReaction(postReactionId, postReactionRequestDto);
 
-        return ResponseEntity.ok(postReactionResponseDto);
+        return ResponseEntity.ok(new SingleResponseDto<>(postReactionResponseDto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostReactionResponseDto> getReaction(@PathVariable("id") Long postReactionId) {
+    public ResponseEntity<SingleResponseDto> getReaction(@PathVariable("id") Long postReactionId) {
         PostReactionResponseDto postReactionResponseDto = postReactionService.findPostReaction(postReactionId);
 
-        return ResponseEntity.ok(postReactionResponseDto);
+        return ResponseEntity.ok(new SingleResponseDto<>(postReactionResponseDto));
     }
 
     @GetMapping
-    public ResponseEntity<List<PostReactionResponseDto>> getAllReaction() {
+    public ResponseEntity<MultiResponseDto> getAllReaction() {
         List<PostReactionResponseDto> postReactionResponseDtos = postReactionService.findAllPostReaction();
 
-        return ResponseEntity.ok(postReactionResponseDtos);
+        return ResponseEntity.ok(new MultiResponseDto<>(postReactionResponseDtos));
     }
 
     @DeleteMapping("/{id}")

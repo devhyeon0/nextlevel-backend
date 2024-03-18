@@ -3,6 +3,8 @@ package com.nextlevel.domain.post.controller;
 import com.nextlevel.domain.post.dto.request.PostRequestDto;
 import com.nextlevel.domain.post.dto.response.PostResponseDto;
 import com.nextlevel.domain.post.service.PostService;
+import com.nextlevel.global.dto.MultiResponseDto;
+import com.nextlevel.global.dto.SingleResponseDto;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,27 +34,28 @@ public class PostController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PostResponseDto> patchPost(@PathVariable("id") Long postId,
-                                                     @Valid @RequestBody PostRequestDto postRequestDto) {
+    public ResponseEntity<SingleResponseDto> patchPost(@PathVariable("id") Long postId,
+                                                       @Valid @RequestBody PostRequestDto postRequestDto) {
         PostResponseDto postResponseDto = postService.updatePost(postId, postRequestDto);
 
-        return ResponseEntity.ok(postResponseDto);
+        return ResponseEntity.ok(new SingleResponseDto<>(postResponseDto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostResponseDto> getPost(@PathVariable("id") Long postId,
-                                                   HttpServletRequest request,
-                                                   HttpServletResponse response) {
+    public ResponseEntity<SingleResponseDto> getPost(@PathVariable("id") Long postId,
+                                                     HttpServletRequest request,
+                                                     HttpServletResponse response) {
         PostResponseDto postResponseDto = postService.findPost(postId);
         addViewCount(postId, request, response);
-        return ResponseEntity.ok(postResponseDto);
+
+        return ResponseEntity.ok(new SingleResponseDto<>(postResponseDto));
     }
 
     @GetMapping
-    public ResponseEntity<List<PostResponseDto>> getPosts() {
+    public ResponseEntity<MultiResponseDto> getPosts() {
         List<PostResponseDto> postResponseDtos = postService.findPosts();
 
-        return ResponseEntity.ok(postResponseDtos);
+        return ResponseEntity.ok(new MultiResponseDto<>(postResponseDtos));
     }
 
     @DeleteMapping("/{id}")

@@ -3,6 +3,8 @@ package com.nextlevel.domain.post.controller;
 import com.nextlevel.domain.post.dto.request.CommentReactionRequestDto;
 import com.nextlevel.domain.post.dto.response.CommentReactionResponseDto;
 import com.nextlevel.domain.post.service.CommentReactionService;
+import com.nextlevel.global.dto.MultiResponseDto;
+import com.nextlevel.global.dto.SingleResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,25 +29,25 @@ public class CommentReactionController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<CommentReactionResponseDto> patchReaction(@PathVariable("id") Long commentReactionId,
-                                                                    @Valid @RequestBody CommentReactionRequestDto commentReactionRequestDto) {
+    public ResponseEntity<SingleResponseDto> patchReaction(@PathVariable("id") Long commentReactionId,
+                                                           @Valid @RequestBody CommentReactionRequestDto commentReactionRequestDto) {
         CommentReactionResponseDto commentReactionResponseDto = commentReactionService.updateReaction(commentReactionId, commentReactionRequestDto);
 
-        return ResponseEntity.ok(commentReactionResponseDto);
+        return ResponseEntity.ok(new SingleResponseDto<>(commentReactionResponseDto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CommentReactionResponseDto> getReaction(@PathVariable("id") Long commentReactionId) {
+    public ResponseEntity<SingleResponseDto> getReaction(@PathVariable("id") Long commentReactionId) {
         CommentReactionResponseDto commentReactionResponseDto = commentReactionService.findCommentReaction(commentReactionId);
 
-        return ResponseEntity.ok(commentReactionResponseDto);
+        return ResponseEntity.ok(new SingleResponseDto<>(commentReactionResponseDto));
     }
 
     @GetMapping
-    public ResponseEntity<List<CommentReactionResponseDto>> getAllReaction() {
+    public ResponseEntity<MultiResponseDto> getAllReaction() {
         List<CommentReactionResponseDto> commentReactionResponseDto = commentReactionService.findAllCommentReaction();
 
-        return ResponseEntity.ok(commentReactionResponseDto);
+        return ResponseEntity.ok(new MultiResponseDto<>(commentReactionResponseDto));
     }
 
     @DeleteMapping("/{id}")

@@ -3,6 +3,8 @@ package com.nextlevel.domain.post.controller;
 import com.nextlevel.domain.post.dto.request.CommentRequestDto;
 import com.nextlevel.domain.post.dto.response.CommentResponseDto;
 import com.nextlevel.domain.post.service.CommentService;
+import com.nextlevel.global.dto.MultiResponseDto;
+import com.nextlevel.global.dto.SingleResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,25 +29,25 @@ public class CommentController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<CommentResponseDto> patchComment(@PathVariable("id") Long commentId,
-                                                           @RequestBody CommentRequestDto commentRequestDto) {
+    public ResponseEntity<SingleResponseDto> patchComment(@PathVariable("id") Long commentId,
+                                                          @RequestBody CommentRequestDto commentRequestDto) {
         CommentResponseDto commentResponseDto = commentService.updateComment(commentId, commentRequestDto);
 
-        return ResponseEntity.ok(commentResponseDto);
+        return ResponseEntity.ok(new SingleResponseDto<>(commentResponseDto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CommentResponseDto> getComment(@PathVariable("id") Long commentId) {
+    public ResponseEntity<SingleResponseDto> getComment(@PathVariable("id") Long commentId) {
         CommentResponseDto commentResponseDto = commentService.getComment(commentId);
 
-        return ResponseEntity.ok(commentResponseDto);
+        return ResponseEntity.ok(new SingleResponseDto<>(commentResponseDto));
     }
 
     @GetMapping
-    public ResponseEntity<List<CommentResponseDto>> getComments() {
+    public ResponseEntity<MultiResponseDto> getComments() {
         List<CommentResponseDto> commentResponseDtos = commentService.getComments();
 
-        return ResponseEntity.ok(commentResponseDtos);
+        return ResponseEntity.ok(new MultiResponseDto<>(commentResponseDtos));
     }
 
     @DeleteMapping("/{id}")

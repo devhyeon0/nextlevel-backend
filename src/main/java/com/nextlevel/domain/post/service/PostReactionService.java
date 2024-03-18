@@ -5,7 +5,7 @@ import com.nextlevel.domain.post.mapper.PostReactionMapper;
 import com.nextlevel.domain.post.repository.PostReactionRepository;
 import com.nextlevel.domain.post.dto.response.PostReactionResponseDto;
 import com.nextlevel.domain.post.entity.PostReaction;
-import com.nextlevel.global.exception.ErrorCode;
+import com.nextlevel.global.codes.ErrorCode;
 import com.nextlevel.global.exception.ProfileApplicationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

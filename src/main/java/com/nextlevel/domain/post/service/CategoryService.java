@@ -5,7 +5,7 @@ import com.nextlevel.domain.post.mapper.CategoryMapper;
 import com.nextlevel.domain.post.repository.CategoryRepository;
 import com.nextlevel.domain.post.dto.request.CategoryRequestDto;
 import com.nextlevel.domain.post.entity.Category;
-import com.nextlevel.global.exception.ErrorCode;
+import com.nextlevel.global.codes.ErrorCode;
 import com.nextlevel.global.exception.ProfileApplicationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

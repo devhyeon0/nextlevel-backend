@@ -5,7 +5,7 @@ import com.nextlevel.domain.post.dto.response.CommentResponseDto;
 import com.nextlevel.domain.post.entity.Comment;
 import com.nextlevel.domain.post.mapper.CommentMapper;
 import com.nextlevel.domain.post.repository.CommentRepository;
-import com.nextlevel.global.exception.ErrorCode;
+import com.nextlevel.global.codes.ErrorCode;
 import com.nextlevel.global.exception.ProfileApplicationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

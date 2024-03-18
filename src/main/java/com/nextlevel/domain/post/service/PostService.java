@@ -9,7 +9,7 @@ import com.nextlevel.domain.post.repository.PostRepository;
 import com.nextlevel.domain.post.dto.request.PostRequestDto;
 import com.nextlevel.domain.user.entity.User;
 import com.nextlevel.domain.user.repository.UserRepository;
-import com.nextlevel.global.exception.ErrorCode;
+import com.nextlevel.global.codes.ErrorCode;
 import com.nextlevel.global.exception.ProfileApplicationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

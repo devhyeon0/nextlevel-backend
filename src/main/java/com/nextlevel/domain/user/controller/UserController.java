@@ -3,6 +3,7 @@ package com.nextlevel.domain.user.controller;
 import com.nextlevel.domain.user.dto.UserResponseDto;
 import com.nextlevel.domain.user.service.UserService;
 import com.nextlevel.domain.user.dto.UserRequestDto;
+import com.nextlevel.global.dto.SingleResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,18 +29,18 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UserResponseDto> patchUser(@PathVariable("id") Long userId,
+    public ResponseEntity<SingleResponseDto> patchUser(@PathVariable("id") Long userId,
                                                      @Valid @RequestBody UserRequestDto userRequestDto) {
         UserResponseDto userResponseDto = userService.updateUser(userId, userRequestDto);
 
-        return ResponseEntity.ok(userResponseDto);
+        return ResponseEntity.ok(new SingleResponseDto<>(userResponseDto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDto> getUser(@PathVariable("id") Long userId) {
+    public ResponseEntity<SingleResponseDto> getUser(@PathVariable("id") Long userId) {
         UserResponseDto userResponseDto = userService.findUser(userId);
 
-        return ResponseEntity.ok(userResponseDto);
+        return ResponseEntity.ok(new SingleResponseDto<>(userResponseDto));
     }
 
     @DeleteMapping("/{id}")
