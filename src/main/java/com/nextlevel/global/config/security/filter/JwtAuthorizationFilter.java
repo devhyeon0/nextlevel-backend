@@ -85,7 +85,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             PrintWriter writer = response.getWriter();
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("error", true);
-            jsonObject.put("message", "로그인 에러");
+            jsonObject.put("message", e.getMessage());
 
             writer.print(jsonObject);
             writer.flush();

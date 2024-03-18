@@ -3,12 +3,14 @@ package com.nextlevel.domain.post.controller;
 import com.nextlevel.domain.post.dto.request.PostReactionRequestDto;
 import com.nextlevel.domain.post.service.PostReactionService;
 import com.nextlevel.domain.post.dto.response.PostReactionResponseDto;
+import com.nextlevel.domain.user.dto.SecurityUserDetailsDto;
 import com.nextlevel.global.dto.MultiResponseDto;
 import com.nextlevel.global.dto.SingleResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +32,9 @@ public class PostReactionController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<SingleResponseDto> patchReaction(@PathVariable("id") Long postReactionId,
-                                                           @Valid @RequestBody PostReactionRequestDto postReactionRequestDto) {
-        PostReactionResponseDto postReactionResponseDto = postReactionService.updateReaction(postReactionId, postReactionRequestDto);
+                                                           @Valid @RequestBody PostReactionRequestDto postReactionRequestDto,
+                                                           @AuthenticationPrincipal SecurityUserDetailsDto userPrincipal) {
+        PostReactionResponseDto postReactionResponseDto = postReactionService.updateReaction(postReactionId, postReactionRequestDto, userPrincipal);
 
         return ResponseEntity.ok(new SingleResponseDto<>(postReactionResponseDto));
     }
@@ -51,8 +54,9 @@ public class PostReactionController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Objects> deleteReaction(@PathVariable("id") Long postReactionId) {
-        postReactionService.deleteReaction(postReactionId);
+    public ResponseEntity<Objects> deleteReaction(@PathVariable("id") Long postReactionId,
+                                                  @AuthenticationPrincipal SecurityUserDetailsDto userPrincipal) {
+        postReactionService.deleteReaction(postReactionId, userPrincipal);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

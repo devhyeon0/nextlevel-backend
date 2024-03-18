@@ -7,6 +7,7 @@ import com.nextlevel.domain.post.mapper.PostMapper;
 import com.nextlevel.domain.post.repository.CategoryRepository;
 import com.nextlevel.domain.post.repository.PostRepository;
 import com.nextlevel.domain.post.dto.request.PostRequestDto;
+import com.nextlevel.domain.user.dto.SecurityUserDetailsDto;
 import com.nextlevel.domain.user.entity.User;
 import com.nextlevel.domain.user.repository.UserRepository;
 import com.nextlevel.global.codes.ErrorCode;
@@ -30,8 +31,8 @@ public class PostService {
     private final CategoryRepository categoryRepository;
     private final PostMapper postMapper;
 
-    public void createPost(PostRequestDto postRequestDto, Principal principal) {
-        User user = userRepository.findByEmail(principal.getName())
+    public void createPost(PostRequestDto postRequestDto, SecurityUserDetailsDto userPrincipal) {
+        User user = userRepository.findById(userPrincipal.getUserDto().userId())
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.USER_NOT_FOUND));
 
         Category category = categoryRepository.findByName(postRequestDto.getCategoryName())
@@ -44,9 +45,13 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public PostResponseDto updatePost(Long postId, PostRequestDto postRequestDto) {
+    public PostResponseDto updatePost(Long postId, PostRequestDto postRequestDto, SecurityUserDetailsDto userPrincipal) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.POST_NOT_FOUND));
+
+        if(!(userPrincipal.getUserDto().userId() == post.getUser().getUserId())) {
+            throw new ProfileApplicationException(ErrorCode.USER_UNAUTHORIZED);
+        }
         post.update(postRequestDto);
 
         return postMapper.postToPostResponseDto(post);
@@ -67,8 +72,15 @@ public class PostService {
         return postMapper.postsToPostResponseDtos(posts);
     }
 
-    public void deletePost(Long postId) {
-        postRepository.deleteById(postId);
+    public void deletePost(Long postId, SecurityUserDetailsDto userPrincipal) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.POST_NOT_FOUND));
+
+        if(!(userPrincipal.getUserDto().userId() == post.getUser().getUserId())) {
+            throw new ProfileApplicationException(ErrorCode.USER_UNAUTHORIZED);
+        }
+
+        postRepository.delete(post);
     }
 
     public void addViewCount(Long postId) {

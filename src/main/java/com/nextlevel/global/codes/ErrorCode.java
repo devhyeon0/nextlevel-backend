@@ -7,6 +7,7 @@ public enum ErrorCode {
 
     // 유저 예외 처리
     USER_NOT_FOUND(404, "404", "유저를 찾을 수 없습니다."),
+    USER_UNAUTHORIZED(401, "401", "권한이 없습니다."),
 
     // 게시글 예외 처리
     POST_NOT_FOUND(404, "404", "게시글을 찾을 수 없습니다."),

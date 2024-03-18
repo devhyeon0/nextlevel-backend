@@ -3,12 +3,14 @@ package com.nextlevel.domain.post.controller;
 import com.nextlevel.domain.post.dto.request.CommentReactionRequestDto;
 import com.nextlevel.domain.post.dto.response.CommentReactionResponseDto;
 import com.nextlevel.domain.post.service.CommentReactionService;
+import com.nextlevel.domain.user.dto.SecurityUserDetailsDto;
 import com.nextlevel.global.dto.MultiResponseDto;
 import com.nextlevel.global.dto.SingleResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +32,9 @@ public class CommentReactionController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<SingleResponseDto> patchReaction(@PathVariable("id") Long commentReactionId,
-                                                           @Valid @RequestBody CommentReactionRequestDto commentReactionRequestDto) {
-        CommentReactionResponseDto commentReactionResponseDto = commentReactionService.updateReaction(commentReactionId, commentReactionRequestDto);
+                                                           @Valid @RequestBody CommentReactionRequestDto commentReactionRequestDto,
+                                                           @AuthenticationPrincipal SecurityUserDetailsDto userPrincipal) {
+        CommentReactionResponseDto commentReactionResponseDto = commentReactionService.updateReaction(commentReactionId, commentReactionRequestDto, userPrincipal);
 
         return ResponseEntity.ok(new SingleResponseDto<>(commentReactionResponseDto));
     }
@@ -51,8 +54,9 @@ public class CommentReactionController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Objects> deleteReaction(@PathVariable("id") Long commentReactionId) {
-        commentReactionService.deleteReaction(commentReactionId);
+    public ResponseEntity<Objects> deleteReaction(@PathVariable("id") Long commentReactionId,
+                                                  @AuthenticationPrincipal SecurityUserDetailsDto userPrincipal) {
+        commentReactionService.deleteReaction(commentReactionId, userPrincipal);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

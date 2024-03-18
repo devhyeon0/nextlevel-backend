@@ -5,6 +5,7 @@ import com.nextlevel.domain.post.dto.response.CommentResponseDto;
 import com.nextlevel.domain.post.entity.Comment;
 import com.nextlevel.domain.post.mapper.CommentMapper;
 import com.nextlevel.domain.post.repository.CommentRepository;
+import com.nextlevel.domain.user.dto.SecurityUserDetailsDto;
 import com.nextlevel.global.codes.ErrorCode;
 import com.nextlevel.global.exception.ProfileApplicationException;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +26,13 @@ public class CommentService {
         commentRepository.save(mapper.commentRequestDtoToComment(commentRequestDto));
     }
 
-    public CommentResponseDto updateComment(Long commentId, CommentRequestDto commentRequestDto) {
+    public CommentResponseDto updateComment(Long commentId, CommentRequestDto commentRequestDto, SecurityUserDetailsDto userPrincipal) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.COMMENT_NOT_FOUND));
+
+        if(!(userPrincipal.getUserDto().userId() == comment.getUser().getUserId())) {
+            throw new ProfileApplicationException(ErrorCode.USER_UNAUTHORIZED);
+        }
         comment.update(commentRequestDto);
 
         return mapper.commentToCommentResponseDto(comment);
@@ -48,7 +53,14 @@ public class CommentService {
         return mapper.commentsToCommentResponseDtos(comments);
     }
 
-    public void deleteComment(Long commentId) {
-        commentRepository.deleteById(commentId);
+    public void deleteComment(Long commentId, SecurityUserDetailsDto userPrincipal) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.COMMENT_NOT_FOUND));
+
+        if(!(userPrincipal.getUserDto().userId() == comment.getUser().getUserId())) {
+            throw new ProfileApplicationException(ErrorCode.USER_UNAUTHORIZED);
+        }
+
+        commentRepository.delete(comment);
     }
 }

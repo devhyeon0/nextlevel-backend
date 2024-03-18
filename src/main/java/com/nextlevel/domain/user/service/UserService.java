@@ -1,5 +1,6 @@
 package com.nextlevel.domain.user.service;
 
+import com.nextlevel.domain.user.dto.SecurityUserDetailsDto;
 import com.nextlevel.domain.user.dto.UserResponseDto;
 import com.nextlevel.domain.user.mapper.UserMapper;
 import com.nextlevel.domain.user.dto.UserRequestDto;
@@ -24,24 +25,38 @@ public class UserService {
         userRepository.save(mapper.userRequestDtoToUser(userRequestDto));
     }
 
-    public UserResponseDto updateUser(Long userId, UserRequestDto userRequestDto) {
+    public UserResponseDto updateUser(Long userId, UserRequestDto userRequestDto, SecurityUserDetailsDto userPrincipal) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.USER_NOT_FOUND));
+
+        if(!(userPrincipal.getUserDto().userId() == user.getUserId())) {
+            throw new ProfileApplicationException(ErrorCode.USER_UNAUTHORIZED);
+        }
         user.update(userRequestDto);
 
         return mapper.userToUserResponseDto(user);
     }
 
     @Transactional(readOnly = true)
-    public UserResponseDto findUser(Long userId) {
-        User findUser = userRepository.findById(userId)
+    public UserResponseDto findUser(Long userId, SecurityUserDetailsDto userPrincipal) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.USER_NOT_FOUND));
 
-        return mapper.userToUserResponseDto(findUser);
+        if(!(userPrincipal.getUserDto().userId() == user.getUserId())) {
+            throw new ProfileApplicationException(ErrorCode.USER_UNAUTHORIZED);
+        }
+
+        return mapper.userToUserResponseDto(user);
     }
 
-    public void deleteUser(Long userId) {
-        User user = mapper.userResponseDtoToUser(findUser(userId));
+    public void deleteUser(Long userId, SecurityUserDetailsDto userPrincipal) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.USER_NOT_FOUND));
+
+        if(!(userPrincipal.getUserDto().userId() == user.getUserId())) {
+            throw new ProfileApplicationException(ErrorCode.USER_UNAUTHORIZED);
+        }
+
         userRepository.delete(user);
     }
 

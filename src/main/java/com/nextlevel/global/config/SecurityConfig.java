@@ -33,8 +33,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.function.Supplier;
 
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.*;
 
 @Slf4j
 @Configuration
@@ -62,6 +61,9 @@ public class SecurityConfig {
                         .requestMatchers(GET, "/api/categories/**").permitAll()
                         .requestMatchers(GET, "/api/post-reaction/**").permitAll()
                         .requestMatchers(GET, "/api/comment-reaction/**").permitAll()
+                        .requestMatchers(POST, "/api/categories").hasRole("ADMIN")
+                        .requestMatchers(PATCH, "/api/categories/**").hasRole("ADMIN")
+                        .requestMatchers(DELETE, "/api/categories/**").hasRole("ADMIN")
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthorizationFilter, BasicAuthenticationFilter.class)

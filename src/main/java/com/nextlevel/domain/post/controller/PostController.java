@@ -3,6 +3,8 @@ package com.nextlevel.domain.post.controller;
 import com.nextlevel.domain.post.dto.request.PostRequestDto;
 import com.nextlevel.domain.post.dto.response.PostResponseDto;
 import com.nextlevel.domain.post.service.PostService;
+import com.nextlevel.domain.user.dto.SecurityUserDetailsDto;
+import com.nextlevel.domain.user.entity.User;
 import com.nextlevel.global.dto.MultiResponseDto;
 import com.nextlevel.global.dto.SingleResponseDto;
 import jakarta.servlet.http.Cookie;
@@ -12,6 +14,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -27,16 +30,17 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<Objects> createPost(@Valid @RequestBody PostRequestDto postRequestDto,
-                                              Principal principal) {
-        postService.createPost(postRequestDto, principal);
+                                              @AuthenticationPrincipal SecurityUserDetailsDto userPrincipal) {
+        postService.createPost(postRequestDto, userPrincipal);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<SingleResponseDto> patchPost(@PathVariable("id") Long postId,
-                                                       @Valid @RequestBody PostRequestDto postRequestDto) {
-        PostResponseDto postResponseDto = postService.updatePost(postId, postRequestDto);
+                                                       @Valid @RequestBody PostRequestDto postRequestDto,
+                                                       @AuthenticationPrincipal SecurityUserDetailsDto userPrincipal) {
+        PostResponseDto postResponseDto = postService.updatePost(postId, postRequestDto, userPrincipal);
 
         return ResponseEntity.ok(new SingleResponseDto<>(postResponseDto));
     }
@@ -59,8 +63,9 @@ public class PostController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Objects> deletePost(@PathVariable("id") Long postId) {
-        postService.deletePost(postId);
+    public ResponseEntity<Objects> deletePost(@PathVariable("id") Long postId,
+                                              @AuthenticationPrincipal SecurityUserDetailsDto userPrincipal) {
+        postService.deletePost(postId, userPrincipal);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
