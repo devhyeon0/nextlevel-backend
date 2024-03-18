@@ -1,7 +1,7 @@
 package com.nextlevel.global.config.security.filter;
 
 import com.nextlevel.global.config.security.jwt.TokenUtils;
-import com.nextlevel.global.exception.ErrorCode;
+import com.nextlevel.global.codes.ErrorCode;
 import com.nextlevel.global.exception.ProfileApplicationException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;

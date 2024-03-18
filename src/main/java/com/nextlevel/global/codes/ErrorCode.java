@@ -1,6 +1,5 @@
-package com.nextlevel.global.exception;
+package com.nextlevel.global.codes;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter

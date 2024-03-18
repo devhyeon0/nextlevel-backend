@@ -1,5 +1,6 @@
 package com.nextlevel.global.exception;
 
+import com.nextlevel.global.codes.ErrorCode;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
