@@ -13,7 +13,6 @@ public class CommentRequestDto {
     @NotNull
     private String content;
 
-    private Integer reportCount;
     private PostResponseDto post;
     private UserResponseDto user;
 }

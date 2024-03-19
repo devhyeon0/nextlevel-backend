@@ -25,8 +25,8 @@ public class Comment extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private Integer reportCount;
+    @Column(nullable = false, columnDefinition = "integer default 0")
+    private int reportCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
@@ -55,6 +55,5 @@ public class Comment extends BaseEntity {
 
     public void update(CommentRequestDto commentDto) {
         Optional.ofNullable(commentDto.getContent()).ifPresent(value -> this.content = value);
-        Optional.ofNullable(commentDto.getReportCount()).ifPresent(value -> this.reportCount = value);
     }
 }

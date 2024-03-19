@@ -36,8 +36,8 @@ public class Post extends BaseEntity {
     @Column(nullable = false)
     private PostStatus status;
 
-    @Column(nullable = false)
-    private Integer reportCount;
+    @Column(nullable = false, columnDefinition = "integer default 0")
+    private int reportCount;
 
     public void addViewCount() {
         this.views += 1;
@@ -79,6 +79,5 @@ public class Post extends BaseEntity {
         Optional.ofNullable(postDto.getTitle()).ifPresent(value -> this.title = value);
         Optional.ofNullable(postDto.getContent()).ifPresent(value -> this.content = value);
         Optional.ofNullable(postDto.getStatus()).ifPresent(value -> this.status = value);
-        Optional.ofNullable(postDto.getReportCount()).ifPresent(value -> this.reportCount = value);
     }
 }

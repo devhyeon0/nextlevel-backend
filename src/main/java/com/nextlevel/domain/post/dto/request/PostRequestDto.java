@@ -17,7 +17,6 @@ public class PostRequestDto {
     @NotNull
     private String content;
     private PostStatus status;
-    private Integer reportCount;
     private UserResponseDto user;
     private String categoryName;
 }
