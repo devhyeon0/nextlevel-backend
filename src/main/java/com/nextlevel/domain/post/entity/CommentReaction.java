@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Getter
 @Entity
-@Table(name = "comment_reactions")
+@Table(name = "comment_reaction")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

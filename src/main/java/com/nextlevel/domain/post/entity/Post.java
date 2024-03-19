@@ -57,6 +57,9 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post")
     private List<PostReaction> postReactions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "post")
+    private List<PostReport> postReports = new ArrayList<>();
+
     public void mappingUser(User user) {
         this.user = user;
         user.mappingPost(this);
@@ -73,6 +76,10 @@ public class Post extends BaseEntity {
 
     public void mappingPostReaction(PostReaction postReaction) {
         postReactions.add(postReaction);
+    }
+
+    public void mappingPostReport(PostReport postReport) {
+        postReports.add(postReport);
     }
 
     public void update(PostRequestDto postDto) {

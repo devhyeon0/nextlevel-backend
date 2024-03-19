@@ -1,10 +1,7 @@
 package com.nextlevel.domain.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.nextlevel.domain.post.entity.Comment;
-import com.nextlevel.domain.post.entity.CommentReaction;
-import com.nextlevel.domain.post.entity.Post;
-import com.nextlevel.domain.post.entity.PostReaction;
+import com.nextlevel.domain.post.entity.*;
 import com.nextlevel.global.audit.BaseTimeEntity;
 import com.nextlevel.domain.user.dto.UserRequestDto;
 import jakarta.persistence.*;
@@ -62,6 +59,9 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user")
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<PostReport> postReports = new ArrayList<>();
+
     public void mappingPost(Post post) {
         posts.add(post);
     }
@@ -76,6 +76,10 @@ public class User extends BaseTimeEntity {
 
     public void mappingComment(Comment comment) {
         comments.add(comment);
+    }
+
+    public void mappingPostReport(PostReport postReport) {
+        postReports.add(postReport);
     }
 
     public void update(UserRequestDto userDto) {
