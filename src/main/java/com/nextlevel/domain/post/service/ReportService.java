@@ -2,9 +2,13 @@ package com.nextlevel.domain.post.service;
 
 import com.nextlevel.domain.post.dto.request.ReportRequestDto;
 import com.nextlevel.domain.post.dto.response.ReportResponseDto;
+import com.nextlevel.domain.post.entity.Comment;
+import com.nextlevel.domain.post.entity.CommentReport;
 import com.nextlevel.domain.post.entity.Post;
 import com.nextlevel.domain.post.entity.PostReport;
 import com.nextlevel.domain.post.mapper.ReportMapper;
+import com.nextlevel.domain.post.repository.CommentReportRepository;
+import com.nextlevel.domain.post.repository.CommentRepository;
 import com.nextlevel.domain.post.repository.PostReportRepository;
 import com.nextlevel.domain.post.repository.PostRepository;
 import com.nextlevel.domain.user.dto.SecurityUserDetailsDto;
@@ -24,9 +28,15 @@ import java.util.List;
 public class ReportService {
 
     private final PostReportRepository postReportRepository;
+    private final CommentReportRepository commentReportRepository;
     private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
     private final ReportMapper mapper;
+
+    /**
+     *  --- post report---
+     */
 
     public void createPostReport(Long postId, ReportRequestDto reportRequestDto, SecurityUserDetailsDto userPrincipal) {
         User user = userRepository.findById(userPrincipal.userId())
@@ -34,7 +44,7 @@ public class ReportService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.POST_NOT_FOUND));
 
-        PostReport postReport = mapper.reportDtoToPostReport(reportRequestDto);
+        PostReport postReport = mapper.postRequestDtoToPostReport(reportRequestDto);
         postReport.mappingUser(user);
         postReport.mappingPost(post);
 
@@ -46,7 +56,7 @@ public class ReportService {
         PostReport postReport = postReportRepository.findById(reportId)
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.REPORT_NOT_FOUND));
 
-        return mapper.postReportToPostResponseDto(postReport);
+        return mapper.postReportToReportResponseDto(postReport);
     }
 
     @Transactional(readOnly = true)
@@ -55,6 +65,40 @@ public class ReportService {
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.POST_NOT_FOUND));
         List<PostReport> postReports = postReportRepository.findByPost(post);
 
-        return mapper.postReportsToPostReportResponseDtos(postReports);
+        return mapper.postReportsToReportResponseDtos(postReports);
+    }
+
+    /**
+     *  --- comment report ---
+     */
+
+    public void createCommentReport(Long commentId, ReportRequestDto reportRequestDto, SecurityUserDetailsDto userPrincipal) {
+        User user = userRepository.findById(userPrincipal.userId())
+                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.USER_NOT_FOUND));
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.COMMENT_NOT_FOUND));
+
+        CommentReport commentReport = mapper.commentRequestDtoToCommentReport(reportRequestDto);
+        commentReport.mappingUser(user);
+        commentReport.mappingComment(comment);
+
+        commentReportRepository.save(commentReport);
+    }
+
+    @Transactional(readOnly = true)
+    public ReportResponseDto findCommentReport(Long reportId) {
+        CommentReport commentReport = commentReportRepository.findById(reportId)
+                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.REPORT_NOT_FOUND));
+
+        return mapper.commentReportToReportResponseDto(commentReport);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReportResponseDto> findCommentReports(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.COMMENT_NOT_FOUND));
+        List<CommentReport> commentReports = commentReportRepository.findByComment(comment);
+
+        return mapper.commentReportsToReportResponseDtos(commentReports);
     }
 }

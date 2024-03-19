@@ -39,6 +39,9 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "comment")
+    private List<CommentReport> commentReports = new ArrayList<>();
+
     public void mappingPost(Post post) {
         this.post = post;
         post.mappingComment(this);
@@ -51,6 +54,10 @@ public class Comment extends BaseEntity {
     public void mappingUser(User user) {
         this.user = user;
         user.mappingComment(this);
+    }
+
+    public void mappingCommentReport(CommentReport commentReport) {
+        commentReports.add(commentReport);
     }
 
     public void update(CommentRequestDto commentDto) {

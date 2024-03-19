@@ -45,4 +45,28 @@ public class ReportController {
 
         return ResponseEntity.ok(new MultiResponseDto<>(reportResponseDtos));
     }
+
+    @PostMapping("/comment/{id}/report")
+    public ResponseEntity<Objects> createCommentReport(@PathVariable("id") Long commentId,
+                                                       @RequestBody ReportRequestDto reportRequestDto,
+                                                       @AuthenticationPrincipal SecurityUserDetailsDto userPrincipal) {
+        reportService.createCommentReport(commentId, reportRequestDto, userPrincipal);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/comment/{id}/report/{reportId}")
+    public ResponseEntity<SingleResponseDto> getCommentReport(@PathVariable("id") Long commentId,
+                                                              @PathVariable("reportId") Long reportId) {
+        ReportResponseDto reportResponseDto = reportService.findCommentReport(reportId);
+
+        return ResponseEntity.ok(new SingleResponseDto<>(reportResponseDto));
+    }
+
+    @GetMapping("/comment/{id}/report")
+    public ResponseEntity<MultiResponseDto> getCommentReports(@PathVariable("id") Long commentId) {
+        List<ReportResponseDto> reportResponseDtos = reportService.findCommentReports(commentId);
+
+        return ResponseEntity.ok(new MultiResponseDto<>(reportResponseDtos));
+    }
 }

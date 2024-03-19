@@ -62,6 +62,9 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user")
     private List<PostReport> postReports = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<CommentReport> commentReports = new ArrayList<>();
+
     public void mappingPost(Post post) {
         posts.add(post);
     }
@@ -80,6 +83,10 @@ public class User extends BaseTimeEntity {
 
     public void mappingPostReport(PostReport postReport) {
         postReports.add(postReport);
+    }
+
+    public void mappingCommentReport(CommentReport commentReport) {
+        commentReports.add(commentReport);
     }
 
     public void update(UserRequestDto userDto) {
