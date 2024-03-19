@@ -1,8 +1,8 @@
 package com.nextlevel.domain.post.controller;
 
 import com.nextlevel.domain.post.dto.request.PostReactionRequestDto;
-import com.nextlevel.domain.post.service.PostReactionService;
 import com.nextlevel.domain.post.dto.response.PostReactionResponseDto;
+import com.nextlevel.domain.post.service.PostReactionService;
 import com.nextlevel.domain.user.dto.SecurityUserDetailsDto;
 import com.nextlevel.global.dto.MultiResponseDto;
 import com.nextlevel.global.dto.SingleResponseDto;
@@ -17,21 +17,24 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/api/post-reaction")
+@RequestMapping("/api/posts")
 @RequiredArgsConstructor
 public class PostReactionController {
 
     private final PostReactionService postReactionService;
 
-    @PostMapping
-    public ResponseEntity<Objects> createReaction(@Valid @RequestBody PostReactionRequestDto postReactionRequestDto) {
-        postReactionService.createReaction(postReactionRequestDto);
+    @PostMapping("/{id}/reaction")
+    public ResponseEntity<Objects> createReaction(@PathVariable("id") Long postId,
+                                                  @Valid @RequestBody PostReactionRequestDto postReactionRequestDto,
+                                                  @AuthenticationPrincipal SecurityUserDetailsDto userPrincipal) {
+        postReactionService.createReaction(postId, postReactionRequestDto, userPrincipal);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<SingleResponseDto> patchReaction(@PathVariable("id") Long postReactionId,
+    @PatchMapping("/{id}/reaction/{reactionId}")
+    public ResponseEntity<SingleResponseDto> patchReaction(@PathVariable("id") Long postId,
+                                                           @PathVariable("reactionId") Long postReactionId,
                                                            @Valid @RequestBody PostReactionRequestDto postReactionRequestDto,
                                                            @AuthenticationPrincipal SecurityUserDetailsDto userPrincipal) {
         PostReactionResponseDto postReactionResponseDto = postReactionService.updateReaction(postReactionId, postReactionRequestDto, userPrincipal);
@@ -39,22 +42,24 @@ public class PostReactionController {
         return ResponseEntity.ok(new SingleResponseDto<>(postReactionResponseDto));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<SingleResponseDto> getReaction(@PathVariable("id") Long postReactionId) {
+    @GetMapping("/{id}/reaction/{reactionId}")
+    public ResponseEntity<SingleResponseDto> getReaction(@PathVariable("id") Long postId,
+                                                         @PathVariable("reactionId") Long postReactionId) {
         PostReactionResponseDto postReactionResponseDto = postReactionService.findPostReaction(postReactionId);
 
         return ResponseEntity.ok(new SingleResponseDto<>(postReactionResponseDto));
     }
 
-    @GetMapping
-    public ResponseEntity<MultiResponseDto> getAllReaction() {
-        List<PostReactionResponseDto> postReactionResponseDtos = postReactionService.findAllPostReaction();
+    @GetMapping("/{id}/reaction")
+    public ResponseEntity<MultiResponseDto> getAllReaction(@PathVariable("id") Long postId) {
+        List<PostReactionResponseDto> postReactionResponseDtos = postReactionService.findAllPostReaction(postId);
 
         return ResponseEntity.ok(new MultiResponseDto<>(postReactionResponseDtos));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Objects> deleteReaction(@PathVariable("id") Long postReactionId,
+    @DeleteMapping("/{id}/reaction/{reactionId}")
+    public ResponseEntity<Objects> deleteReaction(@PathVariable("id") Long postId,
+                                                  @PathVariable("reactionId") Long postReactionId,
                                                   @AuthenticationPrincipal SecurityUserDetailsDto userPrincipal) {
         postReactionService.deleteReaction(postReactionId, userPrincipal);
 
