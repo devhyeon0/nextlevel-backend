@@ -17,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -34,7 +33,6 @@ public class PostService {
     public void createPost(PostRequestDto postRequestDto, SecurityUserDetailsDto userPrincipal) {
         User user = userRepository.findById(userPrincipal.getUserDto().userId())
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.USER_NOT_FOUND));
-
         Category category = categoryRepository.findByName(postRequestDto.getCategoryName())
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.CATEGORY_NOT_FOUND));
 

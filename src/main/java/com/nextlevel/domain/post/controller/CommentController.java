@@ -17,21 +17,24 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/api/comments")
+@RequestMapping("/api/posts")
 @RequiredArgsConstructor
 public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping
-    public ResponseEntity<Objects> createComment(@Valid @RequestBody CommentRequestDto commentRequestDto) {
-        commentService.createComment(commentRequestDto);
+    @PostMapping("/{id}/comment")
+    public ResponseEntity<Objects> createComment(@PathVariable("id") Long postId,
+                                                 @Valid @RequestBody CommentRequestDto commentRequestDto,
+                                                 @AuthenticationPrincipal SecurityUserDetailsDto userPrincipal) {
+        commentService.createComment(postId, commentRequestDto, userPrincipal);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<SingleResponseDto> patchComment(@PathVariable("id") Long commentId,
+    @PatchMapping("/{id}/comment/{commentId}")
+    public ResponseEntity<SingleResponseDto> patchComment(@PathVariable("id") Long postId,
+                                                          @PathVariable("commentId") Long commentId,
                                                           @RequestBody CommentRequestDto commentRequestDto,
                                                           @AuthenticationPrincipal SecurityUserDetailsDto userPrincipal) {
         CommentResponseDto commentResponseDto = commentService.updateComment(commentId, commentRequestDto, userPrincipal);
@@ -39,22 +42,24 @@ public class CommentController {
         return ResponseEntity.ok(new SingleResponseDto<>(commentResponseDto));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<SingleResponseDto> getComment(@PathVariable("id") Long commentId) {
+    @GetMapping("/{id}/comment/{commentId}")
+    public ResponseEntity<SingleResponseDto> getComment(@PathVariable("id") Long postId,
+                                                        @PathVariable("commentId") Long commentId) {
         CommentResponseDto commentResponseDto = commentService.getComment(commentId);
 
         return ResponseEntity.ok(new SingleResponseDto<>(commentResponseDto));
     }
 
-    @GetMapping
-    public ResponseEntity<MultiResponseDto> getComments() {
-        List<CommentResponseDto> commentResponseDtos = commentService.getComments();
+    @GetMapping("/{id}/comment")
+    public ResponseEntity<MultiResponseDto> getComments(@PathVariable("id") Long postId) {
+        List<CommentResponseDto> commentResponseDtos = commentService.getComments(postId);
 
         return ResponseEntity.ok(new MultiResponseDto<>(commentResponseDtos));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Objects> deleteComment(@PathVariable("id") Long commentId,
+    @DeleteMapping("/{id}/comment/{commentId}")
+    public ResponseEntity<Objects> deleteComment(@PathVariable("id") Long postId,
+                                                 @PathVariable("commentId") Long commentId,
                                                  @AuthenticationPrincipal SecurityUserDetailsDto userPrincipal) {
         commentService.deleteComment(commentId, userPrincipal);
 

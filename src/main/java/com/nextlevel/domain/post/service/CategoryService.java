@@ -5,14 +5,17 @@ import com.nextlevel.domain.post.mapper.CategoryMapper;
 import com.nextlevel.domain.post.repository.CategoryRepository;
 import com.nextlevel.domain.post.dto.request.CategoryRequestDto;
 import com.nextlevel.domain.post.entity.Category;
+import com.nextlevel.domain.user.dto.SecurityUserDetailsDto;
 import com.nextlevel.global.codes.ErrorCode;
 import com.nextlevel.global.exception.ProfileApplicationException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
