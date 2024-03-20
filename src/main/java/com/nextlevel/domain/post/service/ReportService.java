@@ -17,10 +17,12 @@ import com.nextlevel.domain.user.repository.UserRepository;
 import com.nextlevel.global.codes.ErrorCode;
 import com.nextlevel.global.exception.ProfileApplicationException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -44,11 +46,16 @@ public class ReportService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.POST_NOT_FOUND));
 
-        PostReport postReport = mapper.postRequestDtoToPostReport(reportRequestDto);
-        postReport.mappingUser(user);
-        postReport.mappingPost(post);
+        Optional<PostReport> report = postReportRepository.findByUserAndPost(user, post);
+        if (report.isEmpty()) {
+            PostReport postReport = mapper.postRequestDtoToPostReport(reportRequestDto);
+            postReport.mappingUser(user);
+            postReport.mappingPost(post);
 
-        postReportRepository.save(postReport);
+            postReportRepository.save(postReport);
+        } else {
+            throw new ProfileApplicationException(ErrorCode.ALREADY_REPORTED_POST);
+        }
     }
 
     @Transactional(readOnly = true)
@@ -78,11 +85,16 @@ public class ReportService {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.COMMENT_NOT_FOUND));
 
-        CommentReport commentReport = mapper.commentRequestDtoToCommentReport(reportRequestDto);
-        commentReport.mappingUser(user);
-        commentReport.mappingComment(comment);
+        Optional<CommentReport> report = commentReportRepository.findByUserAndComment(user, comment);
+        if (report.isEmpty()) {
+            CommentReport commentReport = mapper.commentRequestDtoToCommentReport(reportRequestDto);
+            commentReport.mappingUser(user);
+            commentReport.mappingComment(comment);
 
-        commentReportRepository.save(commentReport);
+            commentReportRepository.save(commentReport);
+        } else {
+            throw new ProfileApplicationException(ErrorCode.ALREADY_REPORTED_COMMENT);
+        }
     }
 
     @Transactional(readOnly = true)
