@@ -28,6 +28,10 @@ public class Comment extends BaseEntity {
     @Column(nullable = false, columnDefinition = "integer default 0")
     private int reportCount;
 
+    public void addReportCount() {
+        this.reportCount += 1;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;

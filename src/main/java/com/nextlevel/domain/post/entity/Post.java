@@ -43,6 +43,10 @@ public class Post extends BaseEntity {
         this.views += 1;
     }
 
+    public void addReportCount() {
+        this.reportCount += 1;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

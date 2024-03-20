@@ -1,7 +1,9 @@
 package com.nextlevel.domain.post.mapper;
 
-import com.nextlevel.domain.post.dto.request.ReportRequestDto;
-import com.nextlevel.domain.post.dto.response.ReportResponseDto;
+import com.nextlevel.domain.post.dto.request.CommentReportRequestDto;
+import com.nextlevel.domain.post.dto.request.PostReportRequestDto;
+import com.nextlevel.domain.post.dto.response.CommentReportResponseDto;
+import com.nextlevel.domain.post.dto.response.PostReportResponseDto;
 import com.nextlevel.domain.post.entity.CommentReport;
 import com.nextlevel.domain.post.entity.PostReport;
 import org.mapstruct.Mapper;
@@ -11,15 +13,15 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ReportMapper {
 
-    PostReport postRequestDtoToPostReport(ReportRequestDto reportRequestDto);
+    PostReport postReportRequestDtoToPostReport(PostReportRequestDto postReportRequestDto);
 
-    ReportResponseDto postReportToReportResponseDto(PostReport postReport);
+    PostReportResponseDto postReportToPostReportResponseDto(PostReport postReport);
 
-    List<ReportResponseDto> postReportsToReportResponseDtos(List<PostReport> postReports);
+    List<PostReportResponseDto> postReportsToPostReportResponseDtos(List<PostReport> postReports);
 
-    CommentReport commentRequestDtoToCommentReport(ReportRequestDto reportRequestDto);
+    CommentReport commentReportRequestDtoToCommentReport(CommentReportRequestDto commentReportRequestDto);
 
-    ReportResponseDto commentReportToReportResponseDto(CommentReport commentReport);
+    CommentReportResponseDto commentReportToCommentReportResponseDto(CommentReport commentReport);
 
-    List<ReportResponseDto> commentReportsToReportResponseDtos(List<CommentReport> commentReports);
+    List<CommentReportResponseDto> commentReportsToCommentReportResponseDtos(List<CommentReport> commentReports);
 }

@@ -7,10 +7,10 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class ReportResponseDto {
+public class CommentReportResponseDto {
 
     private Long reportId;
     private ReportReason reportReason;
     private UserResponseDto user;
-    private PostResponseDto post;
+    private CommentResponseDto comment;
 }

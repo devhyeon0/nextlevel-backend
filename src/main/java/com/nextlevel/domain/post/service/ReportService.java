@@ -1,7 +1,9 @@
 package com.nextlevel.domain.post.service;
 
-import com.nextlevel.domain.post.dto.request.ReportRequestDto;
-import com.nextlevel.domain.post.dto.response.ReportResponseDto;
+import com.nextlevel.domain.post.dto.request.CommentReportRequestDto;
+import com.nextlevel.domain.post.dto.request.PostReportRequestDto;
+import com.nextlevel.domain.post.dto.response.CommentReportResponseDto;
+import com.nextlevel.domain.post.dto.response.PostReportResponseDto;
 import com.nextlevel.domain.post.entity.Comment;
 import com.nextlevel.domain.post.entity.CommentReport;
 import com.nextlevel.domain.post.entity.Post;
@@ -17,7 +19,6 @@ import com.nextlevel.domain.user.repository.UserRepository;
 import com.nextlevel.global.codes.ErrorCode;
 import com.nextlevel.global.exception.ProfileApplicationException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +41,7 @@ public class ReportService {
      *  --- post report---
      */
 
-    public void createPostReport(Long postId, ReportRequestDto reportRequestDto, SecurityUserDetailsDto userPrincipal) {
+    public void createPostReport(Long postId, PostReportRequestDto postReportRequestDto, SecurityUserDetailsDto userPrincipal) {
         User user = userRepository.findById(userPrincipal.userId())
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.USER_NOT_FOUND));
         Post post = postRepository.findById(postId)
@@ -48,9 +49,10 @@ public class ReportService {
 
         Optional<PostReport> report = postReportRepository.findByUserAndPost(user, post);
         if (report.isEmpty()) {
-            PostReport postReport = mapper.postRequestDtoToPostReport(reportRequestDto);
+            PostReport postReport = mapper.postReportRequestDtoToPostReport(postReportRequestDto);
             postReport.mappingUser(user);
             postReport.mappingPost(post);
+            post.addReportCount();
 
             postReportRepository.save(postReport);
         } else {
@@ -59,27 +61,27 @@ public class ReportService {
     }
 
     @Transactional(readOnly = true)
-    public ReportResponseDto findPostReport(Long reportId) {
+    public PostReportResponseDto findPostReport(Long reportId) {
         PostReport postReport = postReportRepository.findById(reportId)
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.REPORT_NOT_FOUND));
 
-        return mapper.postReportToReportResponseDto(postReport);
+        return mapper.postReportToPostReportResponseDto(postReport);
     }
 
     @Transactional(readOnly = true)
-    public List<ReportResponseDto> findPostReports(Long postId) {
+    public List<PostReportResponseDto> findPostReports(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.POST_NOT_FOUND));
         List<PostReport> postReports = postReportRepository.findByPost(post);
 
-        return mapper.postReportsToReportResponseDtos(postReports);
+        return mapper.postReportsToPostReportResponseDtos(postReports);
     }
 
     /**
      *  --- comment report ---
      */
 
-    public void createCommentReport(Long commentId, ReportRequestDto reportRequestDto, SecurityUserDetailsDto userPrincipal) {
+    public void createCommentReport(Long commentId, CommentReportRequestDto commentReportRequestDto, SecurityUserDetailsDto userPrincipal) {
         User user = userRepository.findById(userPrincipal.userId())
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.USER_NOT_FOUND));
         Comment comment = commentRepository.findById(commentId)
@@ -87,9 +89,10 @@ public class ReportService {
 
         Optional<CommentReport> report = commentReportRepository.findByUserAndComment(user, comment);
         if (report.isEmpty()) {
-            CommentReport commentReport = mapper.commentRequestDtoToCommentReport(reportRequestDto);
+            CommentReport commentReport = mapper.commentReportRequestDtoToCommentReport(commentReportRequestDto);
             commentReport.mappingUser(user);
             commentReport.mappingComment(comment);
+            comment.addReportCount();
 
             commentReportRepository.save(commentReport);
         } else {
@@ -98,19 +101,19 @@ public class ReportService {
     }
 
     @Transactional(readOnly = true)
-    public ReportResponseDto findCommentReport(Long reportId) {
+    public CommentReportResponseDto findCommentReport(Long reportId) {
         CommentReport commentReport = commentReportRepository.findById(reportId)
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.REPORT_NOT_FOUND));
 
-        return mapper.commentReportToReportResponseDto(commentReport);
+        return mapper.commentReportToCommentReportResponseDto(commentReport);
     }
 
     @Transactional(readOnly = true)
-    public List<ReportResponseDto> findCommentReports(Long commentId) {
+    public List<CommentReportResponseDto> findCommentReports(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.COMMENT_NOT_FOUND));
         List<CommentReport> commentReports = commentReportRepository.findByComment(comment);
 
-        return mapper.commentReportsToReportResponseDtos(commentReports);
+        return mapper.commentReportsToCommentReportResponseDtos(commentReports);
     }
 }
