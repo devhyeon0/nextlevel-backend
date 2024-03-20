@@ -20,6 +20,7 @@ public class PostReaction extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postReactionId;
 
+    @Enumerated(EnumType.STRING)
     private ReactionType reactionType;
 
     @ManyToOne(fetch = FetchType.LAZY)

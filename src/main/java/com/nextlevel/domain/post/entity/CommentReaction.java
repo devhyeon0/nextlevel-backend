@@ -20,6 +20,7 @@ public class CommentReaction extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentReactionId;
 
+    @Enumerated(EnumType.STRING)
     private ReactionType reactionType;
 
     @ManyToOne(fetch = FetchType.LAZY)
