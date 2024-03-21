@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -34,11 +35,16 @@ public class PostReactionService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.POST_NOT_FOUND));
 
-        PostReaction postReaction = mapper.PostReactionRequestDtoToPostReaction(postReactionRequestDto);
-        postReaction.mappingUser(user);
-        postReaction.mappingPost(post);
+        Optional<PostReaction> reaction = postReactionRepository.findByUserAndPost(user, post);
+        if (reaction.isEmpty()) {
+            PostReaction postReaction = mapper.PostReactionRequestDtoToPostReaction(postReactionRequestDto);
+            postReaction.mappingUser(user);
+            postReaction.mappingPost(post);
 
-        postReactionRepository.save(postReaction);
+            postReactionRepository.save(postReaction);
+        } else {
+            throw new ProfileApplicationException(ErrorCode.ALREADY_REACTION_POST);
+        }
     }
 
     public PostReactionResponseDto updateReaction(Long postReactionId, PostReactionRequestDto postReactionRequestDto, SecurityUserDetailsDto userPrincipal) {

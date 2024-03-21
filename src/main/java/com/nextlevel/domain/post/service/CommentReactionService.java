@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -34,11 +35,16 @@ public class CommentReactionService {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.COMMENT_NOT_FOUND));
 
-        CommentReaction commentReaction = mapper.commentReactionRequestDtoToCommentReaction(commentReactionRequestDto);
-        commentReaction.mappingUser(user);
-        commentReaction.mappingComment(comment);
+        Optional<CommentReaction> reaction = commentReactionRepository.findByUserAndComment(user, comment);
+        if (reaction.isEmpty()) {
+            CommentReaction commentReaction = mapper.commentReactionRequestDtoToCommentReaction(commentReactionRequestDto);
+            commentReaction.mappingUser(user);
+            commentReaction.mappingComment(comment);
 
-        commentReactionRepository.save(commentReaction);
+            commentReactionRepository.save(commentReaction);
+        } else {
+            throw new ProfileApplicationException(ErrorCode.ALREADY_REACTION_COMMENT);
+        }
     }
 
     public CommentReactionResponseDto updateReaction(Long commentReactionId, CommentReactionRequestDto commentReactionRequestDto, SecurityUserDetailsDto userPrincipal) {
