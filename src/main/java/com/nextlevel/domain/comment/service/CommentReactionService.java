@@ -36,27 +36,20 @@ public class CommentReactionService {
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.COMMENT_NOT_FOUND));
 
         Optional<CommentReaction> reaction = commentReactionRepository.findByUserAndComment(user, comment);
-        if (reaction.isEmpty()) {
+        if (reaction.isPresent()) {
+            CommentReaction commentReaction = reaction
+                    .orElseThrow(() -> new ProfileApplicationException(ErrorCode.REACTION_NOT_FOUND));
+            comment.subtractReactionCount();
+
+            commentReactionRepository.delete(commentReaction);
+        } else {
             CommentReaction commentReaction = mapper.commentReactionRequestDtoToCommentReaction(commentReactionRequestDto);
             commentReaction.mappingUser(user);
             commentReaction.mappingComment(comment);
+            comment.addReactionCount();
 
             commentReactionRepository.save(commentReaction);
-        } else {
-            throw new ProfileApplicationException(ErrorCode.ALREADY_REACTION_COMMENT);
         }
-    }
-
-    public CommentReactionResponseDto updateReaction(Long commentReactionId, CommentReactionRequestDto commentReactionRequestDto, SecurityUserDetailsDto userPrincipal) {
-        CommentReaction findCommentReaction = commentReactionRepository.findById(commentReactionId)
-                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.REACTION_NOT_FOUND));
-
-        if(!(userPrincipal.getUserDto().userId() == findCommentReaction.getUser().getUserId())) {
-            throw new ProfileApplicationException(ErrorCode.USER_UNAUTHORIZED);
-        }
-        findCommentReaction.update(commentReactionRequestDto);
-
-        return mapper.commentReactionToCommentReactionResponseDto(findCommentReaction);
     }
 
     @Transactional(readOnly = true)
@@ -74,16 +67,5 @@ public class CommentReactionService {
         List<CommentReaction> allCommentReaction = commentReactionRepository.findByComment(comment);
 
         return mapper.allCommentReactionToCommentReactionResponseDtos(allCommentReaction);
-    }
-
-    public void deleteReaction(Long commentReactionId, SecurityUserDetailsDto userPrincipal) {
-        CommentReaction findCommentReaction = commentReactionRepository.findById(commentReactionId)
-                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.REACTION_NOT_FOUND));
-
-        if(!(userPrincipal.getUserDto().userId() == findCommentReaction.getUser().getUserId())) {
-            throw new ProfileApplicationException(ErrorCode.USER_UNAUTHORIZED);
-        }
-
-        commentReactionRepository.delete(findCommentReaction);
     }
 }

@@ -1,13 +1,9 @@
 package com.nextlevel.domain.comment.entity;
 
-import com.nextlevel.domain.post.entity.ReactionType;
 import com.nextlevel.domain.user.entity.User;
 import com.nextlevel.global.audit.BaseTimeEntity;
-import com.nextlevel.domain.comment.dto.request.CommentReactionRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.Optional;
 
 @Getter
 @Entity
@@ -21,8 +17,8 @@ public class CommentReaction extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentReactionId;
 
-    @Enumerated(EnumType.STRING)
-    private ReactionType reactionType;
+    @Column(nullable = false)
+    private boolean reactionStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
@@ -40,9 +36,5 @@ public class CommentReaction extends BaseTimeEntity {
     public void mappingUser(User user) {
         this.user = user;
         user.mappingCommentReaction(this);
-    }
-
-    public void update(CommentReactionRequestDto commentReactionRequestDto) {
-        Optional.ofNullable(commentReactionRequestDto.getReactionType()).ifPresent(value -> this.reactionType = value);
     }
 }

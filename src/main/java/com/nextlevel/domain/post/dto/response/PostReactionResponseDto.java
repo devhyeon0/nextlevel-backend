@@ -1,6 +1,5 @@
 package com.nextlevel.domain.post.dto.response;
 
-import com.nextlevel.domain.post.entity.ReactionType;
 import com.nextlevel.domain.user.dto.UserResponseDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +9,7 @@ import lombok.Getter;
 public class PostReactionResponseDto {
 
     private Long postReactionId;
-    private ReactionType reactionType;
+    private boolean reactionStatus;
     private PostResponseDto post;
     private UserResponseDto user;
 }

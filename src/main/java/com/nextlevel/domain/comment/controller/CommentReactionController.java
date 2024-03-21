@@ -32,16 +32,6 @@ public class CommentReactionController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{id}/reaction/{reactionId}")
-    public ResponseEntity<SingleResponseDto> patchReaction(@PathVariable("id") Long commentId,
-                                                           @PathVariable("reactionId") Long commentReactionId,
-                                                           @Valid @RequestBody CommentReactionRequestDto commentReactionRequestDto,
-                                                           @AuthenticationPrincipal SecurityUserDetailsDto userPrincipal) {
-        CommentReactionResponseDto commentReactionResponseDto = commentReactionService.updateReaction(commentReactionId, commentReactionRequestDto, userPrincipal);
-
-        return ResponseEntity.ok(new SingleResponseDto<>(commentReactionResponseDto));
-    }
-
     @GetMapping("/{id}/reaction/{reactionId}")
     public ResponseEntity<SingleResponseDto> getReaction(@PathVariable("id") Long commentId,
                                                          @PathVariable("reactionId") Long commentReactionId) {
@@ -55,14 +45,5 @@ public class CommentReactionController {
         List<CommentReactionResponseDto> commentReactionResponseDto = commentReactionService.findAllCommentReaction(commentId);
 
         return ResponseEntity.ok(new MultiResponseDto<>(commentReactionResponseDto));
-    }
-
-    @DeleteMapping("/{id}/reaction/{reactionId}")
-    public ResponseEntity<Objects> deleteReaction(@PathVariable("id") Long commentId,
-                                                  @PathVariable("reactionId") Long commentReactionId,
-                                                  @AuthenticationPrincipal SecurityUserDetailsDto userPrincipal) {
-        commentReactionService.deleteReaction(commentReactionId, userPrincipal);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

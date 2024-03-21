@@ -32,16 +32,6 @@ public class PostReactionController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{id}/reaction/{reactionId}")
-    public ResponseEntity<SingleResponseDto> patchReaction(@PathVariable("id") Long postId,
-                                                           @PathVariable("reactionId") Long postReactionId,
-                                                           @Valid @RequestBody PostReactionRequestDto postReactionRequestDto,
-                                                           @AuthenticationPrincipal SecurityUserDetailsDto userPrincipal) {
-        PostReactionResponseDto postReactionResponseDto = postReactionService.updateReaction(postReactionId, postReactionRequestDto, userPrincipal);
-
-        return ResponseEntity.ok(new SingleResponseDto<>(postReactionResponseDto));
-    }
-
     @GetMapping("/{id}/reaction/{reactionId}")
     public ResponseEntity<SingleResponseDto> getReaction(@PathVariable("id") Long postId,
                                                          @PathVariable("reactionId") Long postReactionId) {
@@ -55,14 +45,5 @@ public class PostReactionController {
         List<PostReactionResponseDto> postReactionResponseDtos = postReactionService.findAllPostReaction(postId);
 
         return ResponseEntity.ok(new MultiResponseDto<>(postReactionResponseDtos));
-    }
-
-    @DeleteMapping("/{id}/reaction/{reactionId}")
-    public ResponseEntity<Objects> deleteReaction(@PathVariable("id") Long postId,
-                                                  @PathVariable("reactionId") Long postReactionId,
-                                                  @AuthenticationPrincipal SecurityUserDetailsDto userPrincipal) {
-        postReactionService.deleteReaction(postReactionId, userPrincipal);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

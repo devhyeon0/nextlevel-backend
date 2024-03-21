@@ -36,27 +36,20 @@ public class PostReactionService {
                 .orElseThrow(() -> new ProfileApplicationException(ErrorCode.POST_NOT_FOUND));
 
         Optional<PostReaction> reaction = postReactionRepository.findByUserAndPost(user, post);
-        if (reaction.isEmpty()) {
+        if (reaction.isPresent()) {
+            PostReaction postReaction = reaction
+                    .orElseThrow(() -> new ProfileApplicationException(ErrorCode.REACTION_NOT_FOUND));
+            post.subtractReactionCount();
+
+            postReactionRepository.delete(postReaction);
+        } else {
             PostReaction postReaction = mapper.PostReactionRequestDtoToPostReaction(postReactionRequestDto);
             postReaction.mappingUser(user);
             postReaction.mappingPost(post);
+            post.addReactionCount();
 
             postReactionRepository.save(postReaction);
-        } else {
-            throw new ProfileApplicationException(ErrorCode.ALREADY_REACTION_POST);
         }
-    }
-
-    public PostReactionResponseDto updateReaction(Long postReactionId, PostReactionRequestDto postReactionRequestDto, SecurityUserDetailsDto userPrincipal) {
-        PostReaction findPostReaction = postReactionRepository.findById(postReactionId)
-                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.REACTION_NOT_FOUND));
-
-        if(!(userPrincipal.getUserDto().userId() == findPostReaction.getUser().getUserId())) {
-            throw new ProfileApplicationException(ErrorCode.USER_UNAUTHORIZED);
-        }
-        findPostReaction.update(postReactionRequestDto);
-
-        return mapper.postReactionToPostReactionResponseDto(findPostReaction);
     }
 
     @Transactional(readOnly = true)
@@ -74,16 +67,5 @@ public class PostReactionService {
         List<PostReaction> allPostReaction = postReactionRepository.findByPost(post);
 
         return mapper.allPostReactionToPostReactionResponseDtos(allPostReaction);
-    }
-
-    public void deleteReaction(Long postReactionId, SecurityUserDetailsDto userPrincipal) {
-        PostReaction findPostReaction = postReactionRepository.findById(postReactionId)
-                .orElseThrow(() -> new ProfileApplicationException(ErrorCode.REACTION_NOT_FOUND));
-
-        if(!(userPrincipal.getUserDto().userId() == findPostReaction.getUser().getUserId())) {
-            throw new ProfileApplicationException(ErrorCode.USER_UNAUTHORIZED);
-        }
-
-        postReactionRepository.delete(findPostReaction);
     }
 }

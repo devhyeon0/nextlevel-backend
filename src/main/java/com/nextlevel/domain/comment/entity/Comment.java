@@ -29,8 +29,19 @@ public class Comment extends BaseEntity {
     @Column(nullable = false, columnDefinition = "integer default 0")
     private int reportCount;
 
+    @Column(nullable = false, columnDefinition = "integer default 0")
+    private int reactionCount;
+
     public void addReportCount() {
         this.reportCount += 1;
+    }
+
+    public void addReactionCount() {
+        this.reactionCount += 1;
+    }
+
+    public void subtractReactionCount() {
+        this.reactionCount -= 1;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

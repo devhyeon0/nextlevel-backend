@@ -17,8 +17,6 @@ public enum ErrorCode {
     REPORT_NOT_FOUND(404, "404", "신고글을 찾을 수 없습니다."),
     ALREADY_REPORTED_POST(409, "409", "이미 신고된 게시글입니다."),
     ALREADY_REPORTED_COMMENT(409, "409", "이미 신고된 댓글입니다."),
-    ALREADY_REACTION_POST(409, "409", "이미 추천한 게시글입니다."),
-    ALREADY_REACTION_COMMENT(409, "409", "이미 추천한 댓글입니다."),
 
     // 로그인 예외 처리
     TOKEN_NOT_VALID(404, "404", "유효하지 않은 토큰입니다."),
