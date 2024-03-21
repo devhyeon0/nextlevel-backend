@@ -1,4 +1,4 @@
-package com.nextlevel.domain.post.dto.response;
+package com.nextlevel.domain.comment.dto.response;
 
 import com.nextlevel.domain.post.entity.ReactionType;
 import com.nextlevel.domain.user.dto.UserResponseDto;

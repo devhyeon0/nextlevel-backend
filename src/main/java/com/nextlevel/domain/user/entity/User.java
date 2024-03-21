@@ -1,6 +1,9 @@
 package com.nextlevel.domain.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nextlevel.domain.comment.entity.Comment;
+import com.nextlevel.domain.comment.entity.CommentReaction;
+import com.nextlevel.domain.comment.entity.CommentReport;
 import com.nextlevel.domain.post.entity.*;
 import com.nextlevel.global.audit.BaseTimeEntity;
 import com.nextlevel.domain.user.dto.UserRequestDto;

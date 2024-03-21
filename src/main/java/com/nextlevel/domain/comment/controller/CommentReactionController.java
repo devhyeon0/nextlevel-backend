@@ -1,8 +1,8 @@
-package com.nextlevel.domain.post.controller;
+package com.nextlevel.domain.comment.controller;
 
-import com.nextlevel.domain.post.dto.request.CommentReactionRequestDto;
-import com.nextlevel.domain.post.dto.response.CommentReactionResponseDto;
-import com.nextlevel.domain.post.service.CommentReactionService;
+import com.nextlevel.domain.comment.dto.request.CommentReactionRequestDto;
+import com.nextlevel.domain.comment.dto.response.CommentReactionResponseDto;
+import com.nextlevel.domain.comment.service.CommentReactionService;
 import com.nextlevel.domain.user.dto.SecurityUserDetailsDto;
 import com.nextlevel.global.dto.MultiResponseDto;
 import com.nextlevel.global.dto.SingleResponseDto;

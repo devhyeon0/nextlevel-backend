@@ -1,6 +1,6 @@
-package com.nextlevel.domain.post.dto.request;
+package com.nextlevel.domain.comment.dto.request;
 
-import com.nextlevel.domain.post.dto.response.CommentResponseDto;
+import com.nextlevel.domain.comment.dto.response.CommentResponseDto;
 import com.nextlevel.domain.post.entity.ReactionType;
 import com.nextlevel.domain.user.dto.UserResponseDto;
 import lombok.Builder;

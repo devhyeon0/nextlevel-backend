@@ -1,5 +1,6 @@
 package com.nextlevel.domain.post.entity;
 
+import com.nextlevel.domain.comment.entity.Comment;
 import com.nextlevel.domain.user.entity.User;
 import com.nextlevel.global.audit.BaseEntity;
 import com.nextlevel.domain.post.dto.request.PostRequestDto;

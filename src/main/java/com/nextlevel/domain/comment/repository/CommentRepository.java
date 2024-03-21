@@ -1,6 +1,6 @@
-package com.nextlevel.domain.post.repository;
+package com.nextlevel.domain.comment.repository;
 
-import com.nextlevel.domain.post.entity.Comment;
+import com.nextlevel.domain.comment.entity.Comment;
 import com.nextlevel.domain.post.entity.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 

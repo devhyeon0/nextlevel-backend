@@ -1,5 +1,6 @@
-package com.nextlevel.domain.post.entity;
+package com.nextlevel.domain.comment.entity;
 
+import com.nextlevel.domain.post.entity.ReportReason;
 import com.nextlevel.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;

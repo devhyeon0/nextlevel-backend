@@ -1,10 +1,9 @@
-package com.nextlevel.domain.post.mapper;
+package com.nextlevel.domain.comment.mapper;
 
-import com.nextlevel.domain.post.dto.request.CommentRequestDto;
-import com.nextlevel.domain.post.dto.response.CommentResponseDto;
-import com.nextlevel.domain.post.entity.Comment;
+import com.nextlevel.domain.comment.dto.request.CommentRequestDto;
+import com.nextlevel.domain.comment.dto.response.CommentResponseDto;
+import com.nextlevel.domain.comment.entity.Comment;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 import java.util.List;
 

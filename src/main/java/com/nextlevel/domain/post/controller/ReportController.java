@@ -1,8 +1,8 @@
 package com.nextlevel.domain.post.controller;
 
-import com.nextlevel.domain.post.dto.request.CommentReportRequestDto;
+import com.nextlevel.domain.comment.dto.request.CommentReportRequestDto;
 import com.nextlevel.domain.post.dto.request.PostReportRequestDto;
-import com.nextlevel.domain.post.dto.response.CommentReportResponseDto;
+import com.nextlevel.domain.comment.dto.response.CommentReportResponseDto;
 import com.nextlevel.domain.post.dto.response.PostReportResponseDto;
 import com.nextlevel.domain.post.service.ReportService;
 import com.nextlevel.domain.user.dto.SecurityUserDetailsDto;

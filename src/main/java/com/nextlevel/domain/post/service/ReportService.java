@@ -1,16 +1,16 @@
 package com.nextlevel.domain.post.service;
 
-import com.nextlevel.domain.post.dto.request.CommentReportRequestDto;
+import com.nextlevel.domain.comment.dto.request.CommentReportRequestDto;
 import com.nextlevel.domain.post.dto.request.PostReportRequestDto;
-import com.nextlevel.domain.post.dto.response.CommentReportResponseDto;
+import com.nextlevel.domain.comment.dto.response.CommentReportResponseDto;
 import com.nextlevel.domain.post.dto.response.PostReportResponseDto;
-import com.nextlevel.domain.post.entity.Comment;
-import com.nextlevel.domain.post.entity.CommentReport;
+import com.nextlevel.domain.comment.entity.Comment;
+import com.nextlevel.domain.comment.entity.CommentReport;
 import com.nextlevel.domain.post.entity.Post;
 import com.nextlevel.domain.post.entity.PostReport;
 import com.nextlevel.domain.post.mapper.ReportMapper;
-import com.nextlevel.domain.post.repository.CommentReportRepository;
-import com.nextlevel.domain.post.repository.CommentRepository;
+import com.nextlevel.domain.comment.repository.CommentReportRepository;
+import com.nextlevel.domain.comment.repository.CommentRepository;
 import com.nextlevel.domain.post.repository.PostReportRepository;
 import com.nextlevel.domain.post.repository.PostRepository;
 import com.nextlevel.domain.user.dto.SecurityUserDetailsDto;

@@ -1,4 +1,4 @@
-package com.nextlevel.domain.post.dto.request;
+package com.nextlevel.domain.comment.dto.request;
 
 import com.nextlevel.domain.post.dto.response.PostResponseDto;
 import com.nextlevel.domain.user.dto.UserResponseDto;

@@ -1,8 +1,9 @@
-package com.nextlevel.domain.post.entity;
+package com.nextlevel.domain.comment.entity;
 
+import com.nextlevel.domain.post.entity.ReactionType;
 import com.nextlevel.domain.user.entity.User;
 import com.nextlevel.global.audit.BaseTimeEntity;
-import com.nextlevel.domain.post.dto.request.CommentReactionRequestDto;
+import com.nextlevel.domain.comment.dto.request.CommentReactionRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
